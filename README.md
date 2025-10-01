@@ -4,6 +4,7 @@ Bu repoda Rust programlama dili ile yazılmış çeşitli sistem araçlarına ye
 
 ## Fikirler
 
-- RustCop : Çeşitli sistem verilerini okuyan terminal uygulamasıdır.
+- **RustCop** : Çeşitli sistem verilerini _(CPU, bellek kullanım verileri, disk doluluk oranı gibi)_ okuyup terminal ekranına yazdıran bir konsol uygulamasıdır.
+- **DockerWarrior** : Seçilen kriterlere göre hızlıca docker-compose dosyası oluşturan terminal aracıdır.
 
 ## Gerçekleştirilenler
