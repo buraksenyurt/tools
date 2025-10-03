@@ -1,3 +1,4 @@
+use colorized::{Color, Colors};
 use std::thread;
 use std::time::Duration;
 use sysinfo::{Disks, System};
@@ -7,7 +8,11 @@ fn main() {
     sys.refresh_all();
 
     print_common_info();
-    println!("{:<20} {}", "Number of CPUs:", sys.cpus().len());
+    println!(
+        "{} {}",
+        format!("{:<20}", "Number of CPUs:").color(Colors::BrightCyanFg),
+        sys.cpus().len()
+    );
     print_memory_info(&mut sys);
     print_disks(&mut sys);
     print_process_info(&mut sys);
@@ -15,36 +20,42 @@ fn main() {
 
 fn print_disks(sys: &mut System) {
     sys.refresh_all();
-    println!("Disks:");
+    println!("{}", "\nDisks:".color(Colors::BrightYellowFg));
     for disk in Disks::new_with_refreshed_list().iter() {
         println!(
-            "{:<20} {:>10} MB",
-            disk.name().to_string_lossy(),
-            disk.total_space() / 1024 / 1024
+            "{} {} MB total, {} MB free, {} MB used",
+            format!("{:<20}", disk.name().to_string_lossy()).color(Colors::BrightWhiteFg),
+            format!("{:>10}", disk.total_space() / 1024 / 1024).color(Colors::BrightGreenFg),
+            format!("{:>10}", disk.available_space() / 1024 / 1024).color(Colors::BrightRedFg),
+            format!(
+                "{:>10}",
+                (disk.total_space() - disk.available_space()) / 1024 / 1024
+            )
+            .color(Colors::BrightYellowFg)
         );
     }
 }
 
 fn print_common_info() {
-    println!("System information:\n");
+    println!("{}\n", "System Information:".color(Colors::BrightMagentaFg));
     println!(
-        "{:<20} {:?}",
-        "Name:",
+        "{} {:?}",
+        format!("{:<20}", "Name:").color(Colors::BrightCyanFg),
         System::name().unwrap_or("Unknown".into())
     );
     println!(
-        "{:<20} {:?}",
-        "Kernel Version:",
+        "{} {:?}",
+        format!("{:<20}", "Kernel Version:").color(Colors::BrightCyanFg),
         System::kernel_version().unwrap_or("Unknown".into())
     );
     println!(
-        "{:<20} {:?}",
-        "OS Version:",
+        "{} {:?}",
+        format!("{:<20}", "OS Version:").color(Colors::BrightCyanFg),
         System::os_version().unwrap_or("Unknown".into())
     );
     println!(
-        "{:<20} {:?}",
-        "Host Name:",
+        "{} {:?}",
+        format!("{:<20}", "Host Name:").color(Colors::BrightCyanFg),
         System::host_name().unwrap_or("Unknown".into())
     );
 }
@@ -52,15 +63,38 @@ fn print_common_info() {
 fn print_memory_info(sys: &mut System) {
     thread::sleep(Duration::from_millis(1000));
     sys.refresh_all();
-    println!("{:<20} {:>10} Mb", "Total memory:", sys.total_memory() / 1024 / 1024);
-    println!("{:<20} {:>10} Mb", "Used memory:", sys.used_memory() / 1024 / 1024);
-    println!("{:<20} {:>10} Mb", "Free memory:", sys.free_memory() / 1024 / 1024);
-    println!("{:<20} {:>10} Mb", "Total swap:", sys.total_swap() / 1024 / 1024);
-    println!("{:<20} {:>10} Mb", "Used swap:", sys.used_swap() / 1024 / 1024);
+    println!(
+        "{} {} Mb",
+        format!("{:<20}", "Total memory:").color(Colors::BrightCyanFg),
+        format!("{:>10}", sys.total_memory() / 1024 / 1024).color(Colors::BrightGreenFg)
+    );
+    println!(
+        "{} {} Mb",
+        format!("{:<20}", "Used memory:").color(Colors::BrightCyanFg),
+        format!("{:>10}", sys.used_memory() / 1024 / 1024).color(Colors::BrightRedFg)
+    );
+    println!(
+        "{} {} Mb",
+        format!("{:<20}", "Free memory:").color(Colors::BrightCyanFg),
+        format!("{:>10}", sys.free_memory() / 1024 / 1024).color(Colors::BrightGreenFg)
+    );
+    println!(
+        "{} {} Mb",
+        format!("{:<20}", "Total swap:").color(Colors::BrightCyanFg),
+        format!("{:>10}", sys.total_swap() / 1024 / 1024).color(Colors::BrightGreenFg)
+    );
+    println!(
+        "{} {} Mb",
+        format!("{:<20}", "Used swap:").color(Colors::BrightCyanFg),
+        format!("{:>10}", sys.used_swap() / 1024 / 1024).color(Colors::BrightRedFg)
+    );
 }
 
 fn print_process_info(sys: &mut System) {
-    println!("\nProcess list (Sorted by CPU Usage):\n");
+    println!(
+        "{}",
+        "\nTop 5 Processes (Sorted by CPU Usage):\n".color(Colors::BrightMagentaFg)
+    );
     thread::sleep(Duration::from_millis(1000));
     sys.refresh_all();
     let mut processes = sys.processes().iter().collect::<Vec<_>>();
@@ -69,11 +103,15 @@ fn print_process_info(sys: &mut System) {
 
     for (pid, process) in processes.iter().take(5) {
         println!(
-            "[{:>10}]\t {:<30} CPU: {:>6.2}% Mem: {:>10} KB",
-            pid,
-            process.name().to_string_lossy(),
-            process.cpu_usage(),
-            process.memory() / 1024,
+            "[{}]\t {:<30} CPU: {}% Mem: {} KB",
+            pid.to_string().color(Colors::BrightYellowFg),
+            process
+                .name()
+                .to_string_lossy()
+                .to_string()
+                .color(Colors::BrightWhiteFg),
+            format!("{:>6.2}", process.cpu_usage()).color(Colors::BrightRedFg),
+            format!("{:>10}", process.memory() / 1024).color(Colors::BrightGreenFg),
         );
     }
 }
