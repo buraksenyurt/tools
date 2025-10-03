@@ -7,6 +7,7 @@ pub const WAIT_DURATION_MS: u64 = 500;
 pub struct SystemData {
     pub system_info: SystemInfo,
     pub cpu_count: usize,
+    pub cpu_info: Vec<CpuInfo>,
     pub memory_info: MemoryInfo,
     pub disk_info: Vec<DiskInfo>,
     pub process_info: Vec<ProcessInfo>,
@@ -17,6 +18,13 @@ pub struct SystemInfo {
     pub kernel_version: String,
     pub os_version: String,
     pub host_name: String,
+}
+
+pub struct CpuInfo {
+    pub name: String,
+    pub frequency: u64,
+    pub vendor_id: String,
+    pub brand: String,
 }
 
 pub struct MemoryInfo {
@@ -57,6 +65,16 @@ impl SystemData {
         };
 
         let cpu_count = sys.cpus().len();
+        let cpu_info: Vec<CpuInfo> = sys
+            .cpus()
+            .iter()
+            .map(|cpu| CpuInfo {
+                name: cpu.name().to_string(),
+                frequency: cpu.frequency(),
+                vendor_id: cpu.vendor_id().to_string(),
+                brand: cpu.brand().to_string(),
+            })
+            .collect();
 
         let memory_info = MemoryInfo {
             total_memory: sys.total_memory(),
@@ -93,6 +111,7 @@ impl SystemData {
         SystemData {
             system_info,
             cpu_count,
+            cpu_info,
             memory_info,
             disk_info,
             process_info: processes,
