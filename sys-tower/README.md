@@ -18,10 +18,10 @@ cargo build --release
 cargo run -- --help
 ```
 
-![sys_tower_00](..\images\sys_tower_00.png)
+![sys_tower_00](../images/sys_tower_00.png)
 
 ```bash
 cargo run
 ```
 
-![sys_tower_01](..\images\sys_tower_01.png)
+![sys_tower_01](../images/sys_tower_01.png)
