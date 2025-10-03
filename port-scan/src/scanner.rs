@@ -35,7 +35,6 @@ impl Scanner {
                 response_time: Some(start.elapsed()),
             },
             Err(e) => {
-                eprintln!("Error scanning port {}: {}", port, e);
                 PortInfo {
                     port,
                     status: PortStatus::Closed,

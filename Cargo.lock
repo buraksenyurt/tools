@@ -57,6 +57,9 @@ dependencies = [
 [[package]]
 name = "port-scan"
 version = "0.1.0"
+dependencies = [
+ "colorized",
+]
 
 [[package]]
 name = "proc-macro2"
