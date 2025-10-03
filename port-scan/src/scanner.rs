@@ -34,14 +34,12 @@ impl Scanner {
                 service: get_service_name(port),
                 response_time: Some(start.elapsed()),
             },
-            Err(e) => {
-                PortInfo {
-                    port,
-                    status: PortStatus::Closed,
-                    service: None,
-                    response_time: None,
-                }
-            }
+            Err(_) => PortInfo {
+                port,
+                status: PortStatus::Closed,
+                service: None,
+                response_time: None,
+            },
         }
     }
 }

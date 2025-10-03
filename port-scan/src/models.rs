@@ -1,4 +1,5 @@
-use std::{path::Display, time::Duration};
+use colorized::{Color, Colors};
+use std::time::Duration;
 
 /// Models for port scanning results
 
@@ -39,8 +40,7 @@ pub struct PortInfo {
 
 impl std::fmt::Display for PortInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
+        let text = format!(
             "Port: {:<10}\tStatus: {:15}\tService: {:<25}\tResponse Time: {:<10}",
             self.port,
             self.status,
@@ -48,6 +48,11 @@ impl std::fmt::Display for PortInfo {
             self.response_time
                 .map(|d| format!("{:?}", d))
                 .unwrap_or("N/A".into())
-        )
+        );
+        match self.status {
+            PortStatus::Open => write!(f, "{}", text.color(Colors::BrightGreenFg)),
+            PortStatus::Closed => write!(f, "{}", text.color(Colors::BrightRedFg)),
+            PortStatus::Filtered => write!(f, "{}", text.color(Colors::BrightYellowFg)),
+        }
     }
 }
