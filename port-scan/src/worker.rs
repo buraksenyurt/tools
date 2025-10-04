@@ -1,4 +1,4 @@
-use std::time::Duration;
+use std::{thread, time::Duration};
 
 use colorized::{Color, Colors};
 
@@ -40,17 +40,56 @@ pub fn start_scan_range(ip: &str, start_port: u16, end_port: u16, timeout: Durat
     }
 }
 
+/// Start scanning a range of ports on the given IP address in parallel using multiple threads.
+/// 
+/// # Arguments
+/// 
+/// * `ip` - The target IP address as a string.
+/// * `start_port` - The starting port number of the range to scan.
+/// * `end_port` - The ending port number of the range to scan.
+pub fn start_scan_range_parallel(ip: &str, start_port: u16, end_port: u16, timeout: Duration) {
+    println!(
+        "{}",
+        format!("Scanning {} from {} to {}", ip, start_port, end_port).color(Colors::BrightCyanFg)
+    );
+    let ip_address = ip.parse().unwrap();
+    let mut handles = vec![];
+    for thread_id in 0..4 {
+        let thread_start = start_port + thread_id * ((end_port - start_port) / 4);
+        let thread_end = if thread_id == 3 {
+            end_port
+        } else {
+            thread_start + ((end_port - start_port) / 4) - 1
+        };
+
+        let handle = thread::spawn(move || {
+            let scanner = Scanner::new(ip_address, timeout);
+
+            for port in thread_start..=thread_end {
+                let result = scanner.scan_port(port);
+                println!("{}", result);
+            }
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        let _ = handle.join();
+    }
+}
+
 /// Validate command-line arguments for the port scanner.
 /// # Arguments
 /// * `args` - A slice of command-line arguments.
 /// # Returns
 /// * `Result<(&str, &str), String>` - Ok with IP address and ports/range if valid, Err with error message if invalid.
-pub fn validate_arguments(args: &[String]) -> Result<(&str, &str), String> {
-    if args.len() != 3 {
+pub fn validate_arguments(args: &[String]) -> Result<(&str, &str,bool), String> {
+    if args.len() < 3 {
         return Err("Invalid arguments".into());
     }
     let ip_string = &args[1];
     let ports_or_range = &args[2];
+    let use_multithreading = args.len() > 3 && args[3] == "-p";
 
     match ip_string.parse::<std::net::IpAddr>() {
         Ok(_) => {}
@@ -88,5 +127,5 @@ pub fn validate_arguments(args: &[String]) -> Result<(&str, &str), String> {
             .map_err(|_| format!("Error: Invalid port number: {}", ports_or_range))?;
     }
 
-    Ok((ip_string, ports_or_range))
+    Ok((ip_string, ports_or_range, use_multithreading))
 }

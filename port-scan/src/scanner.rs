@@ -15,13 +15,24 @@ pub struct Scanner {
     pub timeout: Duration,
 }
 
+/// Implementation of the Scanner struct.
 impl Scanner {
-    /// Creates a new `Scanner` instance with the specified target IP address and timeout duration.
+    /// Create a new Scanner instance.
+    /// # Arguments
+    /// * `target` - The target IP address to scan.
+    /// * `timeout` - The timeout duration for each port scan.
     pub fn new(target: IpAddr, timeout: Duration) -> Self {
         Scanner { target, timeout }
     }
 
-    /// Scans a specific port on the target IP address.
+    /// Scan a specific port on the target IP address.
+    ///
+    /// This function attempts to connect to the specified port and returns information about the port's status.
+    /// 
+    /// # Arguments
+    /// * `port` - The port number to scan.
+    /// # Returns
+    /// * `PortInfo` - A struct containing information about the scanned port.
     pub fn scan_port(&self, port: u16) -> PortInfo {
         let socket = SocketAddr::new(self.target, port);
         let start = Instant::now();

@@ -1,5 +1,10 @@
 use colorized::{Color, Colors};
 
+
+/// Display information and usage instructions for the port scanner tool.
+/// 
+/// # Arguments
+/// * `messages` - An optional string slice containing messages to display (e.g., errors).
 pub fn show_info(messages: Option<&str>) {
     clear_screen();
     show_banner();
@@ -9,6 +14,7 @@ pub fn show_info(messages: Option<&str>) {
     }
 }
 
+/// Clear the terminal screen.
 fn clear_screen() {
     if cfg!(target_os = "windows") {
         let _ = std::process::Command::new("cmd")
@@ -20,6 +26,7 @@ fn clear_screen() {
     print!("\x1B[2J\x1B[1;1H");
 }
 
+/// Display the banner for the port scanner tool.
 fn show_banner() {
     println!("{}", "=".repeat(80).color(Colors::BrightYellowFg));
     println!(
@@ -33,10 +40,11 @@ fn show_banner() {
     println!("{}", "=".repeat(80).color(Colors::BrightYellowFg));
 }
 
+/// Display usage instructions for the port scanner tool.
 fn show_usage() {
     println!(
         "{}",
-        "Usage: port-scan <IP_ADDRESS> [PORTS] [RANGE_START RANGE_END]".color(Colors::BrightCyanFg)
+        "Usage: port-scan <IP_ADDRESS> [PORTS] [RANGE_START RANGE_END] [OPTIONS]".color(Colors::BrightCyanFg)
     );
     println!(
         "{}",
@@ -45,6 +53,10 @@ fn show_usage() {
     println!(
         "{}",
         "Example: port-scan 127.0.0.1 130-140".color(Colors::BrightCyanFg)
+    );
+    println!(
+        "{}",
+        "Example: port-scan 127.0.0.1 130-140 -p #Multithreading".color(Colors::BrightCyanFg)
     );
     println!(
         "{}",
