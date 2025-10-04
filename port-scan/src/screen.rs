@@ -46,6 +46,10 @@ fn show_usage() {
         "{}",
         "Example: port-scan 127.0.0.1 130-140".color(Colors::BrightCyanFg)
     );
+    println!(
+        "{}",
+        "Example: port-scan 127.0.0.1 135".color(Colors::BrightCyanFg)
+    );
     println!("{}", "=".repeat(80).color(Colors::BrightCyanFg));
     println!();
 }
