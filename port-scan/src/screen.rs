@@ -21,16 +21,16 @@ fn clear_screen() {
 }
 
 fn show_banner() {
-    println!("{}", "=".repeat(80).color(Colors::BrightBlueFg));
+    println!("{}", "=".repeat(80).color(Colors::BrightYellowFg));
     println!(
         "{}",
-        "      Port Scanner Tool       ".color(Colors::BrightBlueFg)
+        "      Port Scanner Tool       ".color(Colors::BrightYellowFg)
     );
     println!(
         "{}",
-        "Its a simple port scanner written in Rust.".color(Colors::BrightBlueFg)
+        "Its a simple port scanner written in Rust.".color(Colors::BrightYellowFg)
     );
-    println!("{}", "=".repeat(80).color(Colors::BrightBlueFg));
+    println!("{}", "=".repeat(80).color(Colors::BrightYellowFg));
 }
 
 fn show_usage() {
@@ -40,12 +40,12 @@ fn show_usage() {
     );
     println!(
         "{}",
-        "Example: port-scan 127.0.0.1 80 100".color(Colors::BrightCyanFg)
+        "Example: port-scan 127.0.0.1 80,100,135".color(Colors::BrightCyanFg)
     );
     println!(
         "{}",
         "Example: port-scan 127.0.0.1 130-140".color(Colors::BrightCyanFg)
     );
     println!("{}", "=".repeat(80).color(Colors::BrightCyanFg));
-    print!("\n");
+    println!();
 }

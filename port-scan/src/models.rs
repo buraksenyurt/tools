@@ -1,7 +1,6 @@
+/// Models for port scanning results
 use colorized::{Color, Colors};
 use std::time::Duration;
-
-/// Models for port scanning results
 
 /// Status of a scanned port
 /// Open: The port is open and accepting connections.

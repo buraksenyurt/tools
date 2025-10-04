@@ -1,12 +1,11 @@
+/// A simple port scanner implementation in Rust.
+/// This module defines a `Scanner` struct that can scan a given IP address for open ports within a specified timeout duration.
 use std::{
     net::{IpAddr, SocketAddr, TcpStream},
     time::{Duration, Instant},
 };
 
 use crate::models::{PortInfo, PortStatus};
-
-/// A simple port scanner implementation in Rust.
-/// This module defines a `Scanner` struct that can scan a given IP address for open ports within a specified timeout duration.
 
 /// Scanner
 /// A struct representing a port scanner.

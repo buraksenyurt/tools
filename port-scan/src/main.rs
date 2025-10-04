@@ -7,6 +7,7 @@ mod tests;
 mod worker;
 
 fn main() {
+    screen::show_info(None);
     let args = env::args();
     if args.len() != 3 {
         screen::show_info(None);
@@ -55,6 +56,7 @@ fn main() {
         if !port_list.is_empty() {
             worker::start_scan(&ip_string, port_list, Duration::from_millis(500));
         }
+        return;
     }
 
     let port: u16 = ports_or_range.parse().unwrap_or_else(|_| {
