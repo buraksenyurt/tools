@@ -11,3 +11,4 @@ Bu repoda Rust programlama dili ile yazılmış çeşitli sistem araçlarına ye
 ## Gerçekleştirilenler
 
 - **sys-tower** : Temel işlevsellik tamamlandı. CPU, bellek ve disk kullanım verileri renkli formatta terminal ekranına yazdırılıyor.
+- **port-scan** : Temel işlevsellik tamamlandı. Belirtilen IP adresi üzerinde belli bir port, port listesi veya port değer aralığında tarama yapıp sonuçları renkli formatta terminal ekranına yazdırıyor. Ayrıca belirli bir port aralığı için çoklu iş parçacığı ile tarama yapma desteği eklendi.
