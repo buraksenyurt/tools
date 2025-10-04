@@ -1,9 +1,12 @@
 use colorized::{Color, Colors};
 
-pub fn show_info() {
+pub fn show_info(messages: Option<&str>) {
     clear_screen();
     show_banner();
     show_usage();
+    if let Some(msg) = messages {
+        println!("{}", msg.color(Colors::BrightRedFg));
+    }
 }
 
 fn clear_screen() {

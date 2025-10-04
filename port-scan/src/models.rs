@@ -8,6 +8,7 @@ use std::time::Duration;
 /// Closed: The port is closed and not accepting connections.
 /// Filtered: The port is filtered by a firewall or other network device.
 #[derive(Debug, PartialEq, Eq)]
+#[allow(dead_code)]
 pub enum PortStatus {
     Open,
     Closed,
