@@ -20,8 +20,13 @@ pub fn process_directory(
         let file_name = entry.file_name().into_string().unwrap_or_default();
 
         if file_type.is_dir() {
-            entities.push(Entity::new(file_name.clone(), Type::Directory, 0, None));
             let sub = process_directory(full_path.to_str().unwrap(), visited)?;
+            entities.push(Entity::new(
+                file_name.clone(),
+                Type::Directory,
+                sub.iter().map(|f| f.size).sum(),
+                None,
+            ));
             entities.extend(sub);
         } else if file_type.is_file() {
             let size = meta.len();
