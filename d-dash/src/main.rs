@@ -28,7 +28,7 @@ fn main() -> io::Result<()> {
         return Ok(());
     }
 
-    let process_result = worker::process_directory(&path);
+    let process_result = worker::process_directory(&path, &mut std::collections::HashSet::new());
     let entities = match process_result {
         Ok(ents) => ents,
         Err(e) => {

@@ -42,7 +42,7 @@ impl std::fmt::Display for Entity {
         let extension = self.extension.as_ref().map_or("", |ext| ext.as_str());
         write!(
             f,
-            "{:<25}\t{:<5}\t{:<10}\t{} bytes",
+            "{:<40}\t{:<5}\t{:<10}\t{} bytes",
             self.name,
             entity_type,
             match self.entity_type {
