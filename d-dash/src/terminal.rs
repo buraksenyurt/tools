@@ -79,7 +79,7 @@ pub fn print_entities(entities: &[crate::entity::Entity]) {
     println!(
         "{}",
         format!(
-            "{:<25}\t{:<5}\t{:<10}\t{}",
+            "{:<25}\t{:<5}\t{:<20}\t{:>10}",
             "Name", "Type", "Extension", "Size"
         )
         .color(Colors::BrightMagentaFg)

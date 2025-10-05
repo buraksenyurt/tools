@@ -13,25 +13,23 @@ pub fn process_directory(
     }
 
     let entries = fs::read_dir(&canonical)?;
-    for entry in entries {
-        if let Ok(entry) = entry {
-            let full_path = entry.path();
-            let meta = fs::symlink_metadata(&full_path)?;
-            let file_type = meta.file_type();
-            let file_name = entry.file_name().into_string().unwrap_or_default();
+    for entry in entries.flatten() {
+        let full_path = entry.path();
+        let meta = fs::symlink_metadata(&full_path)?;
+        let file_type = meta.file_type();
+        let file_name = entry.file_name().into_string().unwrap_or_default();
 
-            if file_type.is_dir() {
-                entities.push(Entity::new(file_name.clone(), Type::Directory, 0, None));
-                let sub = process_directory(full_path.to_str().unwrap(), visited)?;
-                entities.extend(sub);
-            } else if file_type.is_file() {
-                let size = meta.len();
-                let extension = full_path
-                    .extension()
-                    .and_then(|ext| ext.to_str())
-                    .map(|s| s.to_string());
-                entities.push(Entity::new(file_name, Type::File, size, extension));
-            }
+        if file_type.is_dir() {
+            entities.push(Entity::new(file_name.clone(), Type::Directory, 0, None));
+            let sub = process_directory(full_path.to_str().unwrap(), visited)?;
+            entities.extend(sub);
+        } else if file_type.is_file() {
+            let size = meta.len();
+            let extension = full_path
+                .extension()
+                .and_then(|ext| ext.to_str())
+                .map(|s| s.to_string());
+            entities.push(Entity::new(file_name, Type::File, size, extension));
         }
     }
     Ok(entities)

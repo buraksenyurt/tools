@@ -42,7 +42,7 @@ fn main() -> io::Result<()> {
         }
     };
 
-    let report = Report::new(path, 0, &entities);
+    let report = Report::new(path, &entities);
     terminal::print_dashboard(&report);
     terminal::print_entities(&entities);
 
