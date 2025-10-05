@@ -2,6 +2,10 @@
 name = "sys-tower"
 version = "0.1.0"
 edition = "2024"
+authors = ["Burak Selim Senyurt"]
+description = "A simple system monitoring tool written in Rust."
+license = "MIT"
+repository = "https://github.com/buraksenyurt/tools"
 
 [dependencies]
 colorized = "1.0.0"
