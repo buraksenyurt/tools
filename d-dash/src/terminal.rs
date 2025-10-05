@@ -1,8 +1,7 @@
 use crate::report::Report;
 use colorized::{Color, Colors};
 
-/// Clear the terminal screen.
-fn clear_screen() {
+pub fn clear_screen() {
     if cfg!(target_os = "windows") {
         let _ = std::process::Command::new("cmd")
             .args(["/C", "cls"])
@@ -13,8 +12,7 @@ fn clear_screen() {
     print!("\x1B[2J\x1B[1;1H");
 }
 
-pub fn print_dashboard(report: &Report) {
-    clear_screen();
+pub fn print_header() {
     println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
     println!("{}", "D-Dash".color(Colors::BrightWhiteFg));
     println!(
@@ -23,7 +21,12 @@ pub fn print_dashboard(report: &Report) {
     );
     println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
     println!();
+}
 
+pub fn print_dashboard(report: &Report) {
+    println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
+    println!("{}", "Summary".color(Colors::BrightWhiteFg));
+    println!();
     println!(
         "{}",
         format!("Scanned Path: {}", report.scanned_path).color(Colors::BrightCyanFg)

@@ -43,8 +43,10 @@ fn main() -> io::Result<()> {
     };
 
     let report = Report::new(path, &entities);
-    terminal::print_dashboard(&report);
+    terminal::clear_screen();
+    terminal::print_header();
     terminal::print_entities(&entities);
+    terminal::print_dashboard(&report);
 
     Ok(())
 }
