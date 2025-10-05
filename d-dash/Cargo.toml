@@ -1,0 +1,7 @@
+[package]
+name = "d-dash"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+colorized = "1.0.0"
