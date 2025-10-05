@@ -58,15 +58,10 @@ fn main() -> io::Result<()> {
             ),
         }
     }
+    
     let report = Report::new(path, 0, &entities);
     terminal::print_dashboard(&report);
-
-    // for entity in entities {
-    //     println!(
-    //         "{}",
-    //         format!("{}", entity).as_str().color(Colors::BrightYellowFg)
-    //     );
-    // }
+    terminal::print_entities(&entities);
 
     Ok(())
 }

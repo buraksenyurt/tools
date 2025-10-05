@@ -4,6 +4,16 @@ pub enum Type {
     Directory,
 }
 
+impl std::fmt::Display for Type {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let type_str = match self {
+            Type::File => "File",
+            Type::Directory => "Dir",
+        };
+        write!(f, "{}", type_str)
+    }
+}
+
 #[derive(Debug)]
 pub struct Entity {
     pub name: String,
@@ -44,7 +54,7 @@ impl std::fmt::Display for Entity {
     }
 }
 
-fn get_extension_means(extension:&str)-> Option<&'static str> {
+pub fn get_extension_means(extension: &str) -> Option<&'static str> {
     match extension {
         "txt" => Some("Text File"),
         "rs" => Some("Rust Source File"),

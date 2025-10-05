@@ -74,3 +74,18 @@ pub fn print_dashboard(report: &Report) {
     println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
     println!();
 }
+
+pub fn print_entities(entities: &[crate::entity::Entity]) {
+    println!(
+        "{}",
+        format!(
+            "{:<25}\t{:<5}\t{:<10}\t{}",
+            "Name", "Type", "Extension", "Size"
+        )
+        .color(Colors::BrightMagentaFg)
+    );
+    println!("{}", "-".repeat(80).color(Colors::BrightYellowFg));
+    for entity in entities {
+        println!("{}", entity);
+    }
+}
