@@ -14,6 +14,24 @@ cargo run -- 192.168.1.1 22,80,443 # Belirli portları tarama
 cargo run -- 192.168.1.1 135-200 -p # Çoklu iş parçacığı kullanarak tarama
 ```
 
+## Dilin Kullanılan Özellikleri
+
+- **Struct Tanımları**: `Scanner`, `PortInfo` gibi veri modelleri için struct'lar tanımlandı.
+- **Enum Kullanımı**: Port durumlarını modellemek için `PortStatus` enum'u kullanıldı.
+- **Modül Sistemi**: `mod` ile kod organizasyonu modüler *(models, scanner, screen, worker, tests)* hale getirildi.
+- **Result ve Error Handling**: `Result<T, E>` tipi ile güvenli hata yönetimi sağlandı.
+- **Option Tipi**: `Option<T>` ile değerlerin varlığı kontrollü bir şekilde ele alındı.
+- **Pattern Matching**: `match` ifadeleri ile durum kontrolü yapıldı.
+- **Threading**: `std::thread` ile çoklu iş parçacığı *(multi-threading)* kullanılarak port tarama işlemleri yapıldı.
+- **Network Programming**: `TcpStream` ile socket bağlantıları kuruldu.
+- **Time Operations**: `Duration`, `Instant` ile süre hesaplamaları yapıldı.
+- **Iterator Kullanımı**: `split()`, `filter_map()`, `collect()` ile temel string işlemleri yapıldı.
+- **Command Line Args**: `std::env::args()` ile terminal argümanları ele alındı ve işlendi.
+- **String Parsing**: `parse()` metodları ile tip dönüşümleri yapıldı.
+- **Documentation Comments**: `///` ile API dokümantasyonu eklendi.
+- **External Crates**: `colorized` kütüphanesi ile renkli çıktılar oluşturuldu.
+- **Vector Operations**: `Vec<T>` ile dinamik port listesi yönetimi yapıldı.
+
 ## Örnek Ekran Çıktıları
 
 ```bash

@@ -12,6 +12,22 @@ cargo build --release
 ./target/release/sys-tower
 ```
 
+## Dilin Kullanılan Özellikleri
+
+- **Struct Tanımları**: Sistem verilerini modellemek için basit struct'lar kullanıldı.
+- **Modül Sistemi**: `mod` anahtar kelimesi ile kod organizasyonu modüler hale getirildi *(models, view, utility)*
+- **Trait Kullanımı**: `Display` trait'i ile özel davranış *(behavior)* tanımlandı.
+- **Iterator Kullanımları**: `iter()`, `map()`, `collect()` gibi basit iterator metodları kullanıldı.
+- **Pattern Matching**: `match` ifadeleri ve destructuring işlemleri yapıldı.
+- **Error Handling**: `unwrap_or()` ile güvenli hata yönetimi sağlandı.
+- **Vektör Operasyonları**: `Vec<T>` ile dinamik diziler ve `sort_by()`, `truncate()` gibi metodlar kullanıldı.
+- **String İşlemleri**: `String`, `&str` tipleri ve `to_string()` kullanımları yapıldı.
+- **Conditional Compilation**: `cfg!` makrosu ile platforma özel *(Windows veya Linux)* kod yazıldı.
+- **External Crates**: `sysinfo`, `colorized` gibi harici kütüphaneleri *(crates)* kullanıldı.
+- **Threading**: `std::thread::sleep()` ile thread duraklatmak işlemleri yapıldı.
+- **Command Line Args**: `std::env::args()` ile komut satırı argümanlarını okuma işlemleri yapıldı.
+- **Documentation Comments**: `///` ile fonksiyon ve struct açıklamaları eklendi.
+
 ## Örnek Ekran Çıktıları
 
 ```bash
