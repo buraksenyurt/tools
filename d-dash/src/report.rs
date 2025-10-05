@@ -10,11 +10,11 @@ pub struct Report {
     pub most_used_extension: Option<String>,
     pub most_used_extension_count: usize,
     pub scanned_path: String,
-    pub total_level: usize,
+    pub level: usize,
 }
 
 impl Report {
-    pub fn new(scanned_path: String, entities: &[Entity]) -> Self {
+    pub fn new(scanned_path: String, level: usize, entities: &[Entity]) -> Self {
         let mut total_files = 0;
         let mut total_directories = 0;
         let mut total_size = 0;
@@ -53,7 +53,7 @@ impl Report {
             most_used_extension: Some(most_used_extension),
             most_used_extension_count,
             scanned_path,
-            total_level: 0,
+            level,
         }
     }
 }
