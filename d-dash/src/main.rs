@@ -1,9 +1,13 @@
 use std::{fs, io};
 mod entity;
+mod report;
 mod utility;
+
 use entity::{Entity, Type};
 
 use colorized::{Color, Colors};
+
+use crate::report::Report;
 fn main() -> io::Result<()> {
     utility::clear_screen();
 
@@ -56,16 +60,20 @@ fn main() -> io::Result<()> {
             ),
         }
     }
-
+    let report = Report::new(path, &entities);
     println!(
         "{}",
         format!(
-            "\nFound {} entities in directory '{}':",
-            entities.len(),
-            path
+            "Total files: {}, Total directories: {}, Total size: {} bytes (Not including subdirectories)",
+            report.total_files, report.total_directories, report.total_size
         )
         .as_str()
         .color(Colors::BrightCyanFg)
+    );
+
+    println!(
+        "{}",
+        format!("{}", "Detailed Entity List:").as_str().color(Colors::BrightWhiteFg)
     );
     for entity in entities {
         println!(
