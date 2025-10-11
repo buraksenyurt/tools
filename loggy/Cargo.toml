@@ -1,0 +1,8 @@
+[package]
+name = "loggy"
+description = "A simple log parser and analyzer tool running in the terminal."
+authors = [ "Burak Selim Senyurt" ]
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
