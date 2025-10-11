@@ -7,14 +7,23 @@ Loggy, Rust programlama dili ile yazılmış, log dosyalarını analiz etmek ve 
 Komut satırı argümanları ile aşağıdaki gibi kullanılabilir.
 
 ```bash
-# Log dosyasını oku ve "ERROR" içeren satırları filtrele
+# Log dosyasındaki "ERROR" içeren satırları filtrelemek için:
 cargo run -- --file .\api-runtime.log --pattern "ERROR"
+
+# Log dosyasındaki "WARNING" içeren satırları filtrelemek için:
+cargo run -- --file .\api-runtime.log --pattern "WARNING"
 
 # Log dosyasını okur ve "burak" isimli kullanıcıya ait logları filtreler
 cargo run -- --file .\api-runtime.log --pattern "burak"
 
+# İçinde "Failed to connect" geçen logları bulmak için:
+cargo run -- --file .\api-runtime.log --pattern "Failed to connect"
+
 # Logları belirli bir zaman aralığına göre filtrelemek içinse örneğin:
-cargo run -- --file .\api-runtime.log --start "2025-10-12 10:01:00" --end "2025-10-12 10:04:00"
+cargo run -- --file .\api-runtime.log --start "2025-10-12 10:03:45" --end "2025-10-12 10:09:50"
+
+# Log dosyasındaki log seviyelerine göre sayım yapmak için:
+cargo run -- --file .\api-runtime.log --counts
 ```
 
 > Not: Örnekler devam edecek...
@@ -25,9 +34,35 @@ cargo run -- --file .\api-runtime.log --start "2025-10-12 10:01:00" --end "2025-
 - **Dosya Okuma**: `std::fs::File` ve `std::io::{BufRead, BufReader}` kullanılarak log dosyası satır satır okunur.  
 - **Error Handling**: `Result` tipi ile hata yönetimi sağlanır. Fonksiyonlar hata durumunda uygun mesajlar döner.
 - **Command Line Argument Parsing**: `clap` kütüphanesi ile komut satırı argümanları kolayca işlenir.
+- **DateTime İşlemleri**: `chrono` kütüphanesi ile tarih ve saat işlemleri yapılır, logları belirli zaman aralıklarına göre filtrelemek için satır içeriklerindeki tarih ve saat bilgileri parse edilir.
 
 > Not: Proje geliştirme aşamasında olup, ilerleyen zamanlarda daha fazla özellik eklenmesi planlanmaktadır.
 
 ## Örnek Ekran Çıktıları
+
+Örneklerde kullanılmak üzere aşağıdaki gibi bir log dosyası (`api-runtime.log`) kullanılabilir:
+
+```log
+2025-10-12 10:00:01 INFO Api Server started
+2025-10-12 10:01:15 ERROR Failed to connect to database
+2025-10-12 10:02:30 WARNING Low disk space
+2025-10-12 10:03:45 INFO User login: burak
+2025-10-12 10:04:00 ERROR Timeout while reading file
+2025-10-12 10:05:10 INFO Server stopped
+2025-10-12 10:06:20 INFO Api Server restarted
+2025-10-12 10:07:30 WARNING High memory usage detected
+2025-10-12 10:08:40 INFO User logout: burak
+2025-10-12 10:09:50 ERROR Failed to write to log file
+2025-10-12 10:10:00 INFO System health check passed
+2025-10-12 10:11:15 WARNING Deprecated API usage
+2025-10-12 10:12:25 INFO New user registered: alice
+2025-10-12 10:13:35 ERROR Database connection lost
+2025-10-12 10:14:45 INFO Backup completed successfully
+2025-10-12 10:15:55 WARNING CPU temperature high
+2025-10-12 10:16:05 INFO Api Server shutdown initiated
+2025-10-12 10:17:15 ERROR Failed to send email notification
+2025-10-12 10:18:25 INFO Api Server shutdown completed
+2025-10-12 10:19:35 WARNING Unusual login activity detected
+```
 
 > Not: Ekran çıktıları eklenecek...
