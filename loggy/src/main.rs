@@ -14,9 +14,9 @@ use crate::cli::Cli;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
 
-    println!("Log file: {}", args.file);
+    println!("{:<10} {:>20}", "Log file:", args.file);
     if let Some(pattern) = args.pattern {
-        println!("Pattern: {}", pattern);
+        println!("{:<10} {:>20}", "Pattern:", pattern);
         let logs = read_log_file(&args.file)?;
         let filtered_logs = filter_logs(&logs, &pattern);
         print_logs(&filtered_logs);
@@ -27,6 +27,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let logs = read_log_file(&args.file)?;
         let time_filtered_logs = filter_logs_by_time_range(&logs, &start, &end);
         print_logs(&time_filtered_logs);
+    }
+
+    if args.counts {
+        let logs = read_log_file(&args.file)?;
+        let counts = count_logs(&logs);
+        print_counts(&counts);
     }
 
     Ok(())
@@ -62,6 +68,37 @@ fn filter_logs_by_time_range(logs: &[String], start: &str, end: &str) -> Vec<Str
         })
         .cloned()
         .collect()
+}
+
+struct Counts {
+    total: usize,
+    error: usize,
+    warning: usize,
+    info: usize,
+}
+
+fn count_logs(logs: &[String]) -> Counts {
+    let errors = Regex::new(r"ERROR").unwrap();
+    let warnings = Regex::new(r"WARNING").unwrap();
+    let infos = Regex::new(r"INFO").unwrap();
+
+    let errors_count = logs.iter().filter(|line| errors.is_match(line)).count();
+    let warnings_count = logs.iter().filter(|line| warnings.is_match(line)).count();
+    let infos_count = logs.iter().filter(|line| infos.is_match(line)).count();
+
+    Counts {
+        total: logs.len(),
+        error: errors_count,
+        warning: warnings_count,
+        info: infos_count,
+    }
+}
+
+fn print_counts(counts: &Counts) {
+    println!("{:<10} {:>10}", "Total:", counts.total);
+    println!("{:<10} {:>10}", "Error:", counts.error);
+    println!("{:<10} {:>10}", "Warning:", counts.warning);
+    println!("{:<10} {:>10}", "Info:", counts.info);
 }
 
 fn print_logs(logs: &[String]) {
