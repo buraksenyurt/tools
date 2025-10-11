@@ -1,4 +1,6 @@
 mod cli;
+mod counter;
+mod terminal;
 
 use std::{
     fs::File,
@@ -7,32 +9,43 @@ use std::{
 
 use chrono::NaiveDateTime;
 use clap::Parser;
+use colorized::{Color, Colors};
 use regex::Regex;
 
-use crate::cli::Cli;
+use crate::{cli::Cli, counter::Counts};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
+    terminal::clear_screen();
 
-    println!("{:<10} {:>20}", "Log file:", args.file);
+    println!(
+        "{}",
+        format!("{:<10} {:>20}\n", "Log file:", args.file).color(Colors::BrightCyanFg)
+    );
     if let Some(pattern) = args.pattern {
-        println!("{:<10} {:>20}", "Pattern:", pattern);
+        println!(
+            "{}",
+            format!("{:<10} {:>20}", "Pattern:", pattern).color(Colors::BrightCyanFg)
+        );
         let logs = read_log_file(&args.file)?;
         let filtered_logs = filter_logs(&logs, &pattern);
-        print_logs(&filtered_logs);
+        terminal::print_logs(&filtered_logs);
     }
 
     if let (Some(start), Some(end)) = (args.start, args.end) {
-        println!("Filtering logs from {} to {}", start, end);
+        println!(
+            "{}",
+            format!("Filtering logs from {} to {}", start, end).color(Colors::BrightCyanFg)
+        );
         let logs = read_log_file(&args.file)?;
         let time_filtered_logs = filter_logs_by_time_range(&logs, &start, &end);
-        print_logs(&time_filtered_logs);
+        terminal::print_logs(&time_filtered_logs);
     }
 
     if args.counts {
         let logs = read_log_file(&args.file)?;
         let counts = count_logs(&logs);
-        print_counts(&counts);
+        counts.print();
     }
 
     Ok(())
@@ -41,7 +54,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn read_log_file(file_path: &str) -> Result<Vec<String>, std::io::Error> {
     let f = File::open(file_path)?;
     let reader = BufReader::new(f);
-    let lines = reader.lines().filter_map(Result::ok).collect();
+    let lines = reader.lines().map_while(Result::ok).collect();
     Ok(lines)
 }
 
@@ -59,8 +72,12 @@ fn filter_logs_by_time_range(logs: &[String], start: &str, end: &str) -> Vec<Str
 
     logs.iter()
         .filter(|line| {
-            if let Some(ts) = line.split_whitespace().next() {
-                if let Ok(dt) = NaiveDateTime::parse_from_str(ts, "%Y-%m-%d %H:%M:%S") {
+            let mut parts = line.split_whitespace();
+            let date = parts.next();
+            let time = parts.next();
+            if let (Some(date), Some(time)) = (date, time) {
+                let ts = format!("{} {}", date, time);
+                if let Ok(dt) = NaiveDateTime::parse_from_str(&ts, "%Y-%m-%d %H:%M:%S") {
                     return dt >= start_dt && dt <= end_dt;
                 }
             }
@@ -68,13 +85,6 @@ fn filter_logs_by_time_range(logs: &[String], start: &str, end: &str) -> Vec<Str
         })
         .cloned()
         .collect()
-}
-
-struct Counts {
-    total: usize,
-    error: usize,
-    warning: usize,
-    info: usize,
 }
 
 fn count_logs(logs: &[String]) -> Counts {
@@ -86,23 +96,5 @@ fn count_logs(logs: &[String]) -> Counts {
     let warnings_count = logs.iter().filter(|line| warnings.is_match(line)).count();
     let infos_count = logs.iter().filter(|line| infos.is_match(line)).count();
 
-    Counts {
-        total: logs.len(),
-        error: errors_count,
-        warning: warnings_count,
-        info: infos_count,
-    }
-}
-
-fn print_counts(counts: &Counts) {
-    println!("{:<10} {:>10}", "Total:", counts.total);
-    println!("{:<10} {:>10}", "Error:", counts.error);
-    println!("{:<10} {:>10}", "Warning:", counts.warning);
-    println!("{:<10} {:>10}", "Info:", counts.info);
-}
-
-fn print_logs(logs: &[String]) {
-    for line in logs {
-        println!("{}", line);
-    }
+    Counts::new(logs.len(), errors_count, warnings_count, infos_count)
 }
