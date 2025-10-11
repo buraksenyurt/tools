@@ -13,4 +13,10 @@ pub struct Cli {
         default_value = "ERROR"
     )]
     pub pattern: Option<String>,
+
+    #[arg(short,long,help = "Start date filter in YYYY-MM-DD HH:MM:SS format")]
+    pub start: Option<String>,
+
+    #[arg(short,long,help = "End date filter in YYYY-MM-DD HH:MM:SS format")]
+    pub end: Option<String>,
 }
