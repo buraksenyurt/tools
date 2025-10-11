@@ -65,4 +65,28 @@ cargo run -- --file .\api-runtime.log --counts
 2025-10-12 10:19:35 WARNING Unusual login activity detected
 ```
 
-> Not: Ekran çıktıları eklenecek...
+```bash
+cargo run -- --file .\api-runtime.log --counts
+```
+
+![loggy_00.png](../images/loggy_00.png)
+
+```bash
+cargo run -- --file .\api-runtime.log --start "2025-10-12 10:03:45" --end "2025-10-12 10:09:50"
+```
+
+![loggy_01.png](../images/loggy_01.png)
+
+```bash
+cargo run -- --file .\api-runtime.log --pattern "burak"
+```
+
+![loggy_02.png](../images/loggy_02.png)
+
+```bash
+cargo run -- --file .\api-runtime.log --pattern "ERROR"
+```
+
+![loggy_03.png](../images/loggy_03.png)
+
+> Not: Devam edecek...
