@@ -4,9 +4,9 @@
 2025-10-12 10:03:45 INFO User login: burak
 2025-10-12 10:04:00 ERROR Timeout while reading file
 2025-10-12 10:05:10 INFO Server stopped
-2025-10-12 10:06:20 INFO Api Server restarted
+2025-10-12T10:06:20 INFO Api Server restarted
 2025-10-12 10:07:30 WARNING High memory usage detected
-2025-10-12 10:08:40 INFO User logout: burak
+2025/10/12 10:08:40 INFO User logout: burak
 2025-10-12 10:09:50 ERROR Failed to write to log file
 2025-10-12 10:10:00 INFO System health check passed
 2025-10-12 10:11:15 WARNING Deprecated API usage
@@ -18,3 +18,11 @@
 2025-10-12 10:17:15 ERROR Failed to send email notification
 2025-10-12 10:18:25 INFO Api Server shutdown completed
 2025-10-12 10:19:35 WARNING Unusual login activity detected
+2025-10-12 10:20:45 INFO System rebooted successfully
+2025-10-12 10:21:55 ERROR Disk read error on /dev/sda1
+2025-10-12 10:22:05 INFO User password changed: alice
+2025-10-12 10:23:15 WARNING Network latency high
+2025-10-12 10:24:25 INFO New API key generated for user: bob
+2025-10-12 10:25:35 ERROR Failed to load configuration file
+2025-10-12 10:26:45 INFO Configuration file reloaded successfully
+2025-10-12 10:27:55 WARNING SSL certificate expiring soon

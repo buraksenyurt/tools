@@ -110,4 +110,11 @@ cargo run -- --file .\api-runtime.log --pattern "INFO" --parallel --chunk-size 2
 
 ![loggy_05.png](../images/loggy_05.png)
 
+```bash
+# Farklı timestamp formatlarını destekleme özelliği eklendikten sonra
+cargo run -- --file .\api-runtime.log --start "2025-10-12 10:03:45" --end "2025-10-12 10:09:50"
+```
+
+![loggy_06.png](../images/loggy_06.png)
+
 > Not: Devam edecek...
