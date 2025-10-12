@@ -24,17 +24,26 @@ cargo run -- --file .\api-runtime.log --start "2025-10-12 10:03:45" --end "2025-
 
 # Log dosyasındaki log seviyelerine göre sayım yapmak için:
 cargo run -- --file .\api-runtime.log --counts
+
+# Pattern bazlı bir aramayı parallel işletmek için:
+# parallel argümanı ile işin paralel olarak yapılacağı belirtilir.
+# opsiyonel olan 100 değeri de chunk size'ı belirtir. Yani log satırları 100'erli gruplar halinde paralel işlenir.
+cargo run -- --file .\api-runtime.log --pattern "burak" --parallel --chunk-size 100
+
+# Pattern bazlı aramayı parallel işletmek ve varsayılan chunk size'ı kullanmak için:
+cargo run -- --file .\api-runtime.log --pattern "ERROR" --parallel
 ```
 
 > Not: Örnekler devam edecek...
 
 ## Kullanılan Rust Özellikleri
 
-- **Regex Kullanımı**: `regex` kütüphanesi ile log dosyasında belirli desenleri aramak için kullanılır.
-- **Dosya Okuma**: `std::fs::File` ve `std::io::{BufRead, BufReader}` kullanılarak log dosyası satır satır okunur.  
+- **Regex Kullanımı**: `regex` kütüphanesi log dosyasında belirli desenleri *(içinde ERROR geçenler, `Failed to connect` gibi ifadeler geçenler vs)* aramak için kullanılır.
+- **Dosya Okuma**: `std::fs::File` ve `std::io::{BufRead, BufReader}` kullanılarak bir dosya içeriğini satır bazlı okuma işlemleri ele alınmıştır.
 - **Error Handling**: `Result` tipi ile hata yönetimi sağlanır. Fonksiyonlar hata durumunda uygun mesajlar döner.
 - **Command Line Argument Parsing**: `clap` kütüphanesi ile komut satırı argümanları kolayca işlenir.
 - **DateTime İşlemleri**: `chrono` kütüphanesi ile tarih ve saat işlemleri yapılır, logları belirli zaman aralıklarına göre filtrelemek için satır içeriklerindeki tarih ve saat bilgileri parse edilir.
+- **Rayon ile Paralel İşleme**: `rayon` kütüphanesi kullanılarak log satırlarının paralel olarak işlenebilmesi özelliği de en azından pattern kullanımına eklenmiştir. Bu sayede büyük log dosyalarına ait filtrelemelerde performans artışı sağlanabilir.
 
 > Not: Proje geliştirme aşamasında olup, ilerleyen zamanlarda daha fazla özellik eklenmesi planlanmaktadır.
 
@@ -88,5 +97,17 @@ cargo run -- --file .\api-runtime.log --pattern "ERROR"
 ```
 
 ![loggy_03.png](../images/loggy_03.png)
+
+```bash
+cargo run -- --file .\api-runtime.log --pattern "ERROR" --parallel
+```
+
+![loggy_04.png](../images/loggy_04.png)
+
+```bash
+cargo run -- --file .\api-runtime.log --pattern "INFO" --parallel --chunk-size 25
+```
+
+![loggy_05.png](../images/loggy_05.png)
 
 > Not: Devam edecek...
