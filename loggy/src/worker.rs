@@ -4,6 +4,7 @@ use std::{
 };
 
 use chrono::NaiveDateTime;
+use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use regex::Regex;
 
 use crate::counter::Counts;
@@ -20,6 +21,24 @@ pub fn filter_logs_by_pattern(logs: &[String], pattern: &str) -> Vec<String> {
     logs.iter()
         .filter(|line| regex.is_match(line))
         .cloned()
+        .collect()
+}
+
+pub fn filter_logs_by_pattern_parallel(
+    logs: &[String],
+    pattern: &str,
+    chunk_size: usize,
+) -> Vec<String> {
+    let regex = Regex::new(pattern).unwrap();
+
+    logs.par_chunks(chunk_size)
+        .flat_map(|chunk| {
+            chunk
+                .iter()
+                .filter(|line| regex.is_match(line))
+                .cloned()
+                .collect::<Vec<_>>()
+        })
         .collect()
 }
 

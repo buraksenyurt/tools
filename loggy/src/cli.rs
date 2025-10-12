@@ -17,4 +17,14 @@ pub struct Cli {
 
     #[arg(short, long, help = "Counts the occurrences of each log level")]
     pub counts: bool,
+
+    #[arg(long, help = "Enable parallel processing")]
+    pub parallel: bool,
+
+    #[arg(
+        long,
+        help = "Chunk size for parallel processing",
+        default_value_t = 1000
+    )]
+    pub chunk_size: usize,
 }
