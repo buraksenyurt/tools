@@ -1,5 +1,4 @@
-/// Terminal-related utilities for loggy.
-
+//! Terminal-related utilities for loggy.
 
 /// Clears the terminal screen.
 pub fn clear_screen() {
