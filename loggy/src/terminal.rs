@@ -47,7 +47,9 @@ pub fn draw_live_stats(stats: &VecDeque<Counts>) {
 
     println!(
         "{}",
-        format!("ERROR Trends Over Time").color(Colors::BrightRedFg)
+        "ERROR Trends Over Time"
+            .to_string()
+            .color(Colors::BrightRedFg)
     );
     Chart::new(120, 20, 0.0, stats.len() as f32)
         .lineplot(&Shape::Lines(&error_diff))
@@ -60,7 +62,9 @@ pub fn draw_live_stats(stats: &VecDeque<Counts>) {
 
     println!(
         "{}",
-        format!("WARNING Trends Over Time").color(Colors::BrightYellowFg)
+        "WARNING Trends Over Time"
+            .to_string()
+            .color(Colors::BrightYellowFg)
     );
     Chart::new(120, 20, 0.0, stats.len() as f32)
         .lineplot(&Shape::Lines(&warning_diff))

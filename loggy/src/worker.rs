@@ -23,7 +23,7 @@ use crate::{counter::Counts, terminal::draw_live_stats};
 /// * `Result<Vec<String>, std::io::Error>` - A result containing a vector of log lines or an I/O error.
 /// # Errors
 /// * Returns an error if the file cannot be opened or read.
-pub fn read_log_file(file_path: &str) -> Result<Vec<String>, std::io::Error> {
+pub fn read_log_file(file_path: &str) -> anyhow::Result<Vec<String>> {
     let f = File::open(file_path)?;
     let reader = BufReader::new(f);
     let lines = reader.lines().map_while(Result::ok).collect();
@@ -165,12 +165,12 @@ pub fn count_logs(logs: &[String]) -> Counts {
 }
 
 /// Watches a log file for real-time updates and displays live statistics of log levels.
-/// 
+///
 /// # Arguments
 /// * `file_path` - A string slice that holds the path to the log file.
 /// # Returns
 /// * `Result<(), notify::Error>` - A result indicating success or an error from the notify crate.
-pub fn watch_real_time(file_path: &str) -> Result<(), notify::Error> {
+pub fn watch_real_time(file_path: &str) -> anyhow::Result<()> {
     use notify::{Event, EventKind, RecursiveMode, Watcher};
 
     let (tx, rx) = channel();

@@ -8,7 +8,7 @@ use colorized::{Color, Colors};
 
 use crate::{cli::Cli, worker::*};
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> anyhow::Result<()> {
     let args = Cli::parse();
     terminal::clear_screen();
 
