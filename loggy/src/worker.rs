@@ -1,8 +1,9 @@
 //! Worker module containing functions for reading, filtering, and counting log entries.
 
 use std::{
+    collections::VecDeque,
     fs::File,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Seek},
     sync::mpsc::channel,
 };
 
@@ -12,7 +13,7 @@ use notify::event::ModifyKind;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use regex::Regex;
 
-use crate::counter::Counts;
+use crate::{counter::Counts, terminal::draw_live_stats};
 
 /// Reads a log file and returns its lines as a vector of strings.
 ///
@@ -163,6 +164,12 @@ pub fn count_logs(logs: &[String]) -> Counts {
     Counts::new(logs.len(), errors_count, warnings_count, infos_count)
 }
 
+/// Watches a log file for real-time updates and displays live statistics of log levels.
+/// 
+/// # Arguments
+/// * `file_path` - A string slice that holds the path to the log file.
+/// # Returns
+/// * `Result<(), notify::Error>` - A result indicating success or an error from the notify crate.
 pub fn watch_real_time(file_path: &str) -> Result<(), notify::Error> {
     use notify::{Event, EventKind, RecursiveMode, Watcher};
 
@@ -173,14 +180,44 @@ pub fn watch_real_time(file_path: &str) -> Result<(), notify::Error> {
 
     watcher.watch(file_path.as_ref(), RecursiveMode::NonRecursive)?;
 
+    let mut stats_history: VecDeque<Counts> = VecDeque::new();
+    stats_history.push_back(count_logs(&read_log_file(file_path)?));
+    let mut position = 0u64;
+    let mut time_index = 0.0;
+
+    draw_live_stats(&stats_history);
+
     loop {
         match rx.recv() {
             Ok(Ok(event)) => {
                 if matches!(event.kind, EventKind::Modify(ModifyKind::Any)) {
-                    println!(
-                        "{}",
-                        format!("{}", "Log files changed").color(Colors::BrightYellowFg)
-                    )
+                    let file = File::open(file_path)?;
+                    let mut reader = BufReader::new(file);
+                    reader.seek(std::io::SeekFrom::Start(position))?;
+                    let mut new_lines = Vec::new();
+                    let mut line = String::new();
+                    while reader.read_line(&mut line)? > 0 {
+                        new_lines.push(line.trim_end().to_string());
+                        line.clear();
+                    }
+                    position = reader.stream_position()?;
+
+                    if !new_lines.is_empty() {
+                        let new_counts = count_logs(&new_lines);
+                        time_index += 1.0;
+                        let updated_counts = Counts {
+                            total: stats_history.back().unwrap().total + new_counts.total,
+                            error: stats_history.back().unwrap().error + new_counts.error,
+                            warning: stats_history.back().unwrap().warning + new_counts.warning,
+                            info: stats_history.back().unwrap().info + new_counts.info,
+                            timestamp: time_index,
+                        };
+                        stats_history.push_back(updated_counts);
+                        if stats_history.len() > 100 {
+                            stats_history.pop_front();
+                        }
+                        draw_live_stats(&stats_history);
+                    }
                 }
             }
             Ok(Err(e)) => println!("{}", format!("Error {:?}", e).color(Colors::BrightRedFg)),

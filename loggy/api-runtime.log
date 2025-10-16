@@ -4,35 +4,35 @@
 2025-10-12 10:03:45 INFO User login: burak
 2025-10-12 10:04:00 ERROR Timeout while reading file
 2025-10-12 10:05:10 INFO Server stopped
-2025-10-12T10:06:20 INFO Api Server restarted
-WARNING High memory usage detected 2025-10-12 10:07:30
-2025/10/12 10:08:40 INFO User logout: burak
-2025-10-12 10:09:50 ERROR Failed to write to log file
-2025-10-12 10:10:00 INFO System health check passed
-2025-10-12 10:11:15 WARNING Deprecated API usage
-2025-10-12 10:12:25 INFO New user registered: alice
-2025-10-12 10:13:35 ERROR Database connection lost
-2025-10-12 10:14:45 INFO Backup completed successfully
-2025-10-12 10:15:55 WARNING CPU temperature high
-2025-10-12 10:16:05 INFO Api Server shutdown initiated
-2025-10-12 10:17:15 ERROR Failed to send email notification
-2025-10-12 10:18:25 INFO Api Server shutdown completed
-2025-10-12 10:19:35 WARNING Unusual login activity detected
-2025-10-12 10:20:45 INFO System rebooted successfully
-2025-10-12 10:21:55 ERROR Disk read error on /dev/sda1
-2025-10-12 10:22:05 INFO User password changed: alice
-2025-10-12 10:23:15 WARNING Network latency high
-2025-10-12 10:24:25 INFO New API key generated for user: bob
-2025-10-12 10:25:35 ERROR Failed to load configuration file
-2025-10-12 10:26:45 INFO Configuration file reloaded successfully
-2025-10-12 10:27:55 WARNING SSL certificate expiring soon
-2025-10-12 10:28:05 INFO SSL certificate renewed successfully
-2025-10-12 10:29:15 ERROR Unauthorized access attempt detected
-2025-10-12 10:30:25 INFO Security audit completed
-2025-10-12 10:31:35 WARNING High number of failed login attempts
-2025-10-12 10:32:45 INFO User account locked: charlie
-2025-10-12 10:33:55 ERROR Email server not responding
-2025-10-12 10:35:15 WARNING Low battery on UPS
-2025-10-12 10:36:25 INFO UPS battery replaced successfully
-2025-10-12 10:37:35 ERROR File system corruption detected
-2025-10-12 10:38:45 INFO File system check completed
+2025-10-12 10:06:20 INFO Api Server restarted
+2025-10-12 10:07:35 WARNING High memory usage detected
+2025-10-12 10:08:50 ERROR Unable to write to log file
+2025-10-12 10:09:05 INFO User logout: burak
+2025-10-12 10:10:15 INFO Scheduled maintenance started
+2025-10-12 10:11:30 INFO Scheduled maintenance completed
+2025-10-12 10:12:45 ERROR Database connection lost
+2025-10-12 10:13:55 WARNING CPU temperature high
+2025-10-12 10:14:10 INFO New user registered: alice
+2025-10-12 10:15:25 INFO User login: alice
+2025-10-12 10:16:40 ERROR Failed to send email notification
+2025-10-12 10:17:55 WARNING Disk read error
+2025-10-12 10:18:10 INFO User logout: alice
+2025-10-12 10:19:20 INFO Api Server health check passed
+2025-10-12 10:20:35 ERROR Memory allocation failed
+2025-10-12 10:21:50 WARNING Network latency high
+2025-10-12 10:22:05 INFO User login: charlie
+2025-10-12 10:23:15 INFO User logout: charlie
+2025-10-12 10:24:30 ERROR File not found: config.yaml
+2025-10-12 10:25:45 WARNING Unauthorized access attempt detected
+2025-10-12 10:26:00 INFO System backup completed
+2025-10-12 10:27:15 INFO Api Server shutdown initiated
+2025-10-12 10:28:30 INFO Api Server shutdown completed
+2025-10-12 10:29:45 INFO Api Server started
+2025-10-12 10:30:00 ERROR Failed to load module: auth
+2025-10-12 10:31:15 WARNING Deprecated API usage
+2025-10-12 10:32:30 INFO User login: dave
+2025-10-12 10:33:45 ERROR Session expired for user: dave
+2025-10-12 10:34:00 INFO User logout: dave
+2025-10-12 10:35:15 INFO Configuration file updated
+2025-10-12 10:36:30 WARNING High number of failed login attempts
+2025-10-12 10:37:45 ERROR Unable to connect to external service

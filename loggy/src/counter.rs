@@ -4,13 +4,15 @@ use colorized::{Color, Colors};
 #[derive(Debug)]
 pub struct Counts {
     /// Total number of log entries.
-    total: usize,
+    pub total: usize,
     /// Number of error log entries.
-    error: usize,
+    pub error: usize,
     /// Number of warning log entries.
-    warning: usize,
+    pub warning: usize,
     /// Number of info log entries.
-    info: usize,
+    pub info: usize,
+    /// Timestamp of the log entry.
+    pub timestamp: f32,
 }
 
 impl Counts {
@@ -29,6 +31,7 @@ impl Counts {
             error,
             warning,
             info,
+            timestamp: chrono::Local::now().timestamp_millis() as f32 / 1000.0,
         }
     }
 
