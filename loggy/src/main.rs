@@ -16,6 +16,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "{}",
         format!("{:<10} {:>20}\n", "Log file:", args.file).color(Colors::BrightCyanFg)
     );
+
+    if args.watch {
+        println!(
+            "{}",
+            format!("Watching log file: {}", args.file).color(Colors::BrightCyanFg)
+        );
+        watch_real_time(&args.file)?;
+        return Ok(());
+    }
+
     if let Some(pattern) = args.pattern {
         if args.parallel {
             println!(

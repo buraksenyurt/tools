@@ -3,9 +3,12 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
+    sync::mpsc::channel,
 };
 
 use chrono::NaiveDateTime;
+use colorized::{Color, Colors};
+use notify::event::ModifyKind;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use regex::Regex;
 
@@ -158,4 +161,33 @@ pub fn count_logs(logs: &[String]) -> Counts {
     let infos_count = logs.iter().filter(|line| infos.is_match(line)).count();
 
     Counts::new(logs.len(), errors_count, warnings_count, infos_count)
+}
+
+pub fn watch_real_time(file_path: &str) -> Result<(), notify::Error> {
+    use notify::{Event, EventKind, RecursiveMode, Watcher};
+
+    let (tx, rx) = channel();
+    let mut watcher = notify::recommended_watcher(move |res: Result<Event, notify::Error>| {
+        tx.send(res).unwrap();
+    })?;
+
+    watcher.watch(file_path.as_ref(), RecursiveMode::NonRecursive)?;
+
+    loop {
+        match rx.recv() {
+            Ok(Ok(event)) => {
+                if matches!(event.kind, EventKind::Modify(ModifyKind::Any)) {
+                    println!(
+                        "{}",
+                        format!("{}", "Log files changed").color(Colors::BrightYellowFg)
+                    )
+                }
+            }
+            Ok(Err(e)) => println!("{}", format!("Error {:?}", e).color(Colors::BrightRedFg)),
+            Err(e) => println!(
+                "{}",
+                format!("Channel Error {:?}", e).color(Colors::BrightRedFg)
+            ),
+        }
+    }
 }

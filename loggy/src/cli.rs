@@ -27,4 +27,7 @@ pub struct Cli {
         default_value_t = 1000
     )]
     pub chunk_size: usize,
+
+    #[arg(long, help = "Watch the log file for real-time updates")]
+    pub watch: bool,
 }
