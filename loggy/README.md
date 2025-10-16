@@ -32,6 +32,9 @@ cargo run -- --file .\api-runtime.log --pattern "burak" --parallel --chunk-size 
 
 # Pattern bazlı aramayı parallel işletmek ve varsayılan chunk size'ı kullanmak için:
 cargo run -- --file .\api-runtime.log --pattern "ERROR" --parallel
+
+# Log dosyasını gerçek zamanlı izlemek için:
+cargo run -- --file .\api-runtime.log --watch
 ```
 
 > Not: Örnekler devam edecek...
@@ -44,8 +47,9 @@ cargo run -- --file .\api-runtime.log --pattern "ERROR" --parallel
 - **Command Line Argument Parsing**: `clap` kütüphanesi ile komut satırı argümanları kolayca işlenir.
 - **DateTime İşlemleri**: `chrono` kütüphanesi ile tarih ve saat işlemleri yapılır, logları belirli zaman aralıklarına göre filtrelemek için satır içeriklerindeki tarih ve saat bilgileri parse edilir.
 - **Rayon ile Paralel İşleme**: `rayon` kütüphanesi kullanılarak log satırlarının paralel olarak işlenebilmesi özelliği de en azından pattern kullanımına eklenmiştir. Bu sayede büyük log dosyalarına ait filtrelemelerde performans artışı sağlanabilir.
-
-> Not: Proje geliştirme aşamasında olup, ilerleyen zamanlarda daha fazla özellik eklenmesi planlanmaktadır.
+- **Notify ile Dosya İzleme**: `notify` kütüphanesi kullanılarak log dosyasını gerçek zamanlı izleme özelliği eklenmiştir.
+- **textplots ile Görselleştirme**: Zaman bazlı log seviyelerinin trendlerini grafiksel olarak terminalde göstermek için kullanılmıştır.
+- **MPSC ile Kanal İletişimi**: `Multi Producer Single Consumer (MPSC)` kullanılarak paralel işleme sırasında thread'ler arası veri iletişimi sağlanmıştır.
 
 ## Örnek Ekran Çıktıları
 
@@ -117,4 +121,9 @@ cargo run -- --file .\api-runtime.log --start "2025-10-12 10:03:45" --end "2025-
 
 ![loggy_06.png](../images/loggy_06.png)
 
-> Not: Devam edecek...
+```bash
+# Log dosyasını gerçek zamanlı izleme (tail -f benzeri) özelliği eklendikten sonra
+cargo run -- --file .\api-runtime.log --watch
+```
+
+![loggy_07.png](../images/loggy_07.png)
