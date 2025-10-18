@@ -35,6 +35,9 @@ cargo run -- --file .\api-runtime.log --pattern "ERROR" --parallel
 
 # Log dosyasını gerçek zamanlı izlemek için:
 cargo run -- --file .\api-runtime.log --watch
+
+# Filtrelenmiş logları bir dosyaya export etmek için:
+cargo run -- --file .\api-runtime.log --pattern "ERROR" --export "error_logs.json"
 ```
 
 > Not: Örnekler devam edecek...
@@ -127,3 +130,10 @@ cargo run -- --file .\api-runtime.log --watch
 ```
 
 ![loggy_07.png](../images/loggy_07.png)
+
+```bash
+# Filtrelenmiş logları bir dosyaya export etme özelliği eklendikten sonra
+cargo run -- --file .\api-runtime.log --start "2025-10-12 10:03:45" --end "2025-10-12 10:09:50" --export "time_range.json"
+```
+
+![loggy_08.png](../images/loggy_08.png)
