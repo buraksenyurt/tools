@@ -1,13 +1,14 @@
 mod cli;
 mod counter;
+mod export;
+mod models;
 mod terminal;
 mod worker;
-mod models;
 
 use clap::Parser;
 use colorized::{Color, Colors};
 
-use crate::{cli::Cli, worker::*};
+use crate::{cli::Cli, models::filter_info::FilterInfo, worker::*};
 
 fn main() -> anyhow::Result<()> {
     let args = Cli::parse();
@@ -18,6 +19,13 @@ fn main() -> anyhow::Result<()> {
         format!("{:<10} {:>20}\n", "Log file:", args.file).color(Colors::BrightCyanFg)
     );
 
+    if args.counts {
+        let logs = read_log_file(&args.file)?;
+        let counts = count_logs(&logs);
+        counts.print();
+        return Ok(());
+    }
+
     if args.watch {
         println!(
             "{}",
@@ -27,7 +35,13 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
+    let mut filtered_logs: Vec<String> = Vec::new();
+    let mut args_pattern: Option<String> = None;
+    let mut start_time: Option<String> = None;
+    let mut end_time: Option<String> = None;
+
     if let Some(pattern) = args.pattern {
+        args_pattern = Some(pattern.clone());
         if args.parallel {
             println!(
                 "{}",
@@ -38,35 +52,46 @@ fn main() -> anyhow::Result<()> {
                 .color(Colors::BrightCyanFg)
             );
             let logs = read_log_file(&args.file)?;
-            let filtered_logs = filter_logs_by_pattern_parallel(&logs, &pattern, args.chunk_size);
+            filtered_logs = filter_logs_by_pattern_parallel(&logs, &pattern, args.chunk_size);
             terminal::print_logs(&filtered_logs);
-            return Ok(());
         } else {
             println!(
                 "{}",
                 format!("Filtering logs by pattern '{}'", pattern).color(Colors::BrightCyanFg)
             );
             let logs = read_log_file(&args.file)?;
-            let filtered_logs = filter_logs_by_pattern(&logs, &pattern);
+            filtered_logs = filter_logs_by_pattern(&logs, &pattern);
             terminal::print_logs(&filtered_logs);
-            return Ok(());
         }
     }
 
     if let (Some(start), Some(end)) = (args.start, args.end) {
+        start_time = Some(start.clone());
+        end_time = Some(end.clone());
         println!(
             "{}",
             format!("Filtering logs from {} to {}", start, end).color(Colors::BrightCyanFg)
         );
         let logs = read_log_file(&args.file)?;
-        let time_filtered_logs = filter_logs_by_time_range(&logs, &start, &end);
-        terminal::print_logs(&time_filtered_logs);
+        filtered_logs = filter_logs_by_time_range(&logs, &start, &end);
+        terminal::print_logs(&filtered_logs);
     }
 
-    if args.counts {
-        let logs = read_log_file(&args.file)?;
-        let counts = count_logs(&logs);
-        counts.print();
+    if let Some(export_path) = args.export {
+        println!(
+            "{}",
+            format!("Exporting filtered logs to {}", export_path).color(Colors::BrightCyanFg)
+        );
+        let filter_info = FilterInfo {
+            pattern: args_pattern,
+            start_time,
+            end_time,
+        };
+        export_logs_to_json_file(&filtered_logs, filter_info, &export_path)?;
+        println!(
+            "{}",
+            format!("Logs exported successfully to {}", export_path).color(Colors::BrightGreenFg)
+        );
     }
 
     Ok(())

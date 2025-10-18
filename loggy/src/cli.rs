@@ -30,4 +30,7 @@ pub struct Cli {
 
     #[arg(long, help = "Watch the log file for real-time updates")]
     pub watch: bool,
+
+    #[arg(long, help = "Export filtered logs to a file")]
+    pub export: Option<String>,
 }

@@ -59,7 +59,7 @@ pub fn filter_logs_by_pattern_parallel(
     pattern: &str,
     chunk_size: usize,
 ) -> Vec<String> {
-    let insensitive_pattern = format!("(?i){}", pattern);
+    let insensitive_pattern = format!("(?i)\\b{}\\b", pattern);
     let regex = Regex::new(&insensitive_pattern).unwrap();
 
     logs.par_chunks(chunk_size)
@@ -227,4 +227,37 @@ pub fn watch_real_time(file_path: &str) -> anyhow::Result<()> {
             ),
         }
     }
+}
+
+/// Exports the provided log lines to a JSON file.
+///
+/// # Arguments
+/// * `logs` - A slice of strings representing log lines.
+/// * `filter_info` - A FilterInfo struct containing details about the applied filters.
+/// * `output_path` - A string slice representing the path to the output JSON file.
+///
+/// # Returns
+/// * `anyhow::Result<()>` - An empty result or an error.
+pub fn export_logs_to_json_file(
+    logs: &[String],
+    filter_info: crate::models::filter_info::FilterInfo,
+    output_path: &str,
+) -> anyhow::Result<()> {
+    use crate::export::export_logs_to_json;
+    use std::fs::File;
+    use std::io::Write;
+
+    let export_data = export_logs_to_json(logs, filter_info)?;
+
+    let json_data = serde_json::to_string_pretty(&export_data)?;
+
+    let mut file = File::create(output_path)?;
+    file.write_all(json_data.as_bytes())?;
+
+    println!(
+        "{}",
+        format!("Exported logs to JSON file: {}", output_path).color(Colors::BrightGreenFg)
+    );
+
+    Ok(())
 }
