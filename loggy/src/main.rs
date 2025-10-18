@@ -2,6 +2,7 @@ mod cli;
 mod counter;
 mod terminal;
 mod worker;
+mod models;
 
 use clap::Parser;
 use colorized::{Color, Colors};
