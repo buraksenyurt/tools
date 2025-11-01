@@ -8,4 +8,4 @@ Bu repoda Rust programlama dili ile yazılmış çeşitli sistem araçlarına ye
 - [x] **port-scan** : Belirtilen IP adresi üzerinde belli bir port, port listesi veya port değer aralığında tarama yapıp sonuçları renkli formatta terminal ekranına yazdıran bir konsol uygulamasıdır. [Detaylar için...](./port-scan/README.md)
 - [x] **d-dash**: Bir klasör içerisindeki dosyalar ve dizinlerle ilgili çeşitli bilgileri renkli formatta terminal ekranına yazdıran bir konsol uygulamasıdır. [Detaylar için...](./d-dash/README.md)
 - [x] **loggy**: Log dosyaları üzerinde çeşitli işlemleri terminalde yapmamızı sağlayan uygulama. Log dosyasında pattern bazlı arama yapma, real-time log izleme, level bazında filtreleme, JSON veya CSV formatında çıktı verme gibi görevleri gerçekleştirecek. [Detaylar için...](./loggy/README.md)
-- [ ] **fico**: Basit bir dosya kopyalama aracı. Büyük boyutlu dosyaların kopyalanması sırasında bir progress bar'da gösterebilecek. [Detaylar için...](./fico/README.md)
+- [ ] **fico**: Basit bir dosya kopyalama aracı. Dosya kopyalama işlemlerinde indicatif crate'ini kullanarak terminalde bir progress bar gösterebilecek. [Detaylar için...](./fico/README.md)
