@@ -21,9 +21,15 @@ cargo run -- -s .\games.dat -d .\games_copy.dat -f
 - **Dosya okuma ve yazma**: `std::fs::File` kütüphanesinden `BufReader`, `BufWriter` kullanılarak okuma ve yazma işlemleri gerçekleştirilir.
 - **Komut satırı argümanları**: `clap` crate'i kullanılarak komut satırı argümanlarının daha yapısal bir şekilde işlenmesi sağlanır.
 - **Progress Bar**: `indicatif` crate'i kullanılarak terminalde kopyalama işlemi sırasında görsel bir progress bar oluşturulması sağlanır.
+- **Hata Yönetimi**: `anyhow` crate'i kullanılarak hata yönetimi ve raporlama işlemleri basitleştirilmiştir.
+- **Renkli Terminal Çıktısı**: `colorized` crate'i kullanılarak terminal çıktılarının renklendirilmesi sağlanmıştır.
 
 ## Örnek Ekran Çıktıları
 
 Yaklaşık 700 MB boyutundaki bir dosyanın kopyalanması sırasında terminalde aşağıdaki gibi bir çıktı elde edilir:
 
 ![fico_00.png](../images/fico_00.png)
+
+Işık hızında olan kopyalama işlemi :D *(Renklendirmeler eklendikten sonra)*
+
+![fico_01.png](../images/fico_01.png)
