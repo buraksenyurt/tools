@@ -6,21 +6,18 @@ use std::{
 
 use indicatif::ProgressBar;
 
-pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> std::io::Result<()> {
+pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow::Result<()> {
     if !source.exists() {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::NotFound,
-            format!("Source file `{}` does not exist", source.display()),
+        return Err(anyhow::anyhow!(
+            "Source file `{}` does not exist",
+            source.display()
         ));
     }
 
     if destination.exists() && !force {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::AlreadyExists,
-            format!(
-                "Destination file `{}` already exists. Use --force to overwrite.",
-                destination.display()
-            ),
+        return Err(anyhow::anyhow!(
+            "Destination file `{}` already exists. Use --force to overwrite.",
+            destination.display()
         ));
     }
 
@@ -69,6 +66,6 @@ mod tests {
         let destination = PathBuf::from("destination.txt");
         let result = copy_file(&source, &destination, false);
         assert!(result.is_err());
-        assert_eq!(result.err().unwrap().kind(), std::io::ErrorKind::NotFound);
+        assert!(result.unwrap_err().to_string().contains("does not exist"));
     }
 }
