@@ -1,4 +1,4 @@
 [workspace]
 resolver = "2"
-members = [ "d-dash", "loggy", "port-scan","sys-tower"]
+members = [ "d-dash", "fico", "loggy", "port-scan","sys-tower"]
 
