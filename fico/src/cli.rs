@@ -8,11 +8,11 @@ use clap::Parser;
     version,
     about = "A simple file copy tool with progress bar support."
 )]
-struct Args {
+pub struct Args {
     #[arg(short, long, help = "Source file path")]
-    source: PathBuf,
+    pub source: PathBuf,
     #[arg(short, long, help = "Destination file path")]
-    destination: PathBuf,
+    pub destination: PathBuf,
     #[arg(short, long, help = "Force overwrite existing files")]
-    force: bool,
+    pub force: bool,
 }

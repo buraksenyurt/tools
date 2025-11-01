@@ -1,4 +1,10 @@
-use std::path::PathBuf;
+use std::{
+    fs::File,
+    io::{BufReader, BufWriter, Read, Write},
+    path::PathBuf,
+};
+
+use indicatif::ProgressBar;
 
 pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> std::io::Result<()> {
     if !source.exists() {
@@ -18,8 +24,36 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> std::i
         ));
     }
 
-    //todo@buraksenyurt: Implement progress bar functionality here
-    std::fs::copy(source, destination)?;
+    let source_file = File::open(source)?;
+    let file_size = source_file.metadata()?.len();
+    println!("Copying file of size {} bytes", file_size);
+
+    let destination_file = File::create(destination)?;
+
+    let mut reader = BufReader::new(source_file);
+    let mut writer = BufWriter::new(destination_file);
+
+    let progress_bar = ProgressBar::new(file_size);
+    progress_bar.set_style(
+        indicatif::ProgressStyle::with_template(
+            "[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})",
+        )
+        .unwrap()
+        .progress_chars("=>-"),
+    );
+
+    let mut buffer = [0u8; 8192];
+    loop {
+        let bytes_read = reader.read(&mut buffer)?;
+        if bytes_read == 0 {
+            break;
+        }
+        writer.write_all(&buffer[..bytes_read])?;
+        progress_bar.inc(bytes_read as u64);
+    }
+
+    progress_bar.finish_with_message("Copy complete");
+    writer.flush()?;
 
     Ok(())
 }
