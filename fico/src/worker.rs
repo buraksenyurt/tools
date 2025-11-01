@@ -6,6 +6,7 @@ use std::{
 
 use colorized::Color;
 use indicatif::ProgressBar;
+use utility::clear_screen;
 
 pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow::Result<()> {
     if !source.exists() {
@@ -63,17 +64,6 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow
     writer.flush()?;
 
     Ok(())
-}
-
-fn clear_screen() {
-    if cfg!(target_os = "windows") {
-        let _ = std::process::Command::new("cmd")
-            .args(["/C", "cls"])
-            .status();
-    } else {
-        let _ = std::process::Command::new("clear").status();
-    }
-    print!("\x1B[2J\x1B[1;1H");
 }
 
 #[cfg(test)]

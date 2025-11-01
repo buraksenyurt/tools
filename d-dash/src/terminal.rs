@@ -1,17 +1,6 @@
 use crate::report::Report;
 use colorized::{Color, Colors};
 
-pub fn clear_screen() {
-    if cfg!(target_os = "windows") {
-        let _ = std::process::Command::new("cmd")
-            .args(["/C", "cls"])
-            .status();
-    } else {
-        let _ = std::process::Command::new("clear").status();
-    }
-    print!("\x1B[2J\x1B[1;1H");
-}
-
 pub fn print_header() {
     println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
     println!("{}", "D-Dash".color(Colors::BrightWhiteFg));

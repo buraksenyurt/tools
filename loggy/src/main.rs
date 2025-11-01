@@ -7,12 +7,13 @@ mod worker;
 
 use clap::Parser;
 use colorized::{Color, Colors};
+use utility::clear_screen;
 
 use crate::{cli::Cli, models::filter_info::FilterInfo, worker::*};
 
 fn main() -> anyhow::Result<()> {
     let args = Cli::parse();
-    terminal::clear_screen();
+    clear_screen();
 
     println!(
         "{}",

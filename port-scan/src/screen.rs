@@ -1,5 +1,5 @@
 use colorized::{Color, Colors};
-
+use utility::clear_screen;
 
 /// Display information and usage instructions for the port scanner tool.
 /// 
@@ -12,18 +12,6 @@ pub fn show_info(messages: Option<&str>) {
     if let Some(msg) = messages {
         println!("{}", msg.color(Colors::BrightRedFg));
     }
-}
-
-/// Clear the terminal screen.
-fn clear_screen() {
-    if cfg!(target_os = "windows") {
-        let _ = std::process::Command::new("cmd")
-            .args(["/C", "cls"])
-            .status();
-    } else {
-        let _ = std::process::Command::new("clear").status();
-    }
-    print!("\x1B[2J\x1B[1;1H");
 }
 
 /// Display the banner for the port scanner tool.

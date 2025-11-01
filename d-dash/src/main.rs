@@ -5,6 +5,7 @@ mod terminal;
 mod worker;
 
 use colorized::{Color, Colors};
+use utility::clear_screen;
 
 use crate::report::Report;
 fn main() -> io::Result<()> {
@@ -43,7 +44,7 @@ fn main() -> io::Result<()> {
     };
 
     let report = Report::new(path, &entities);
-    terminal::clear_screen();
+    clear_screen();
     terminal::print_header();
     terminal::print_entities(&entities);
     terminal::print_dashboard(&report);

@@ -12,10 +12,7 @@ fn main() -> anyhow::Result<()> {
     match copy_file(&args.source, &args.destination, args.force) {
         Ok(_) => println!(
             "{}",
-            format!(
-                "{}",
-                "File copied successfully.".color(Colors::BrightGreenFg)
-            )
+            "File copied successfully.".color(Colors::BrightGreenFg)
         ),
         Err(e) => eprintln!("Error: {}", e),
     }
