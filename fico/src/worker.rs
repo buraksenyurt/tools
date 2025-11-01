@@ -4,6 +4,7 @@ use std::{
     path::PathBuf,
 };
 
+use colorized::Color;
 use indicatif::ProgressBar;
 
 pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow::Result<()> {
@@ -21,9 +22,18 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow
         ));
     }
 
+    clear_screen();
+
     let source_file = File::open(source)?;
     let file_size = source_file.metadata()?.len();
-    println!("Copying file of size {} bytes", file_size);
+    let info = format!(
+        "Copying from `{}` to `{}`",
+        source.display(),
+        destination.display()
+    );
+    println!("{}", info.color(colorized::Colors::BrightYellowFg));
+    let info = format!("File size: {} bytes", file_size);
+    println!("{}", info.color(colorized::Colors::BrightYellowFg));
 
     let destination_file = File::create(destination)?;
 
@@ -53,6 +63,17 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow
     writer.flush()?;
 
     Ok(())
+}
+
+fn clear_screen() {
+    if cfg!(target_os = "windows") {
+        let _ = std::process::Command::new("cmd")
+            .args(["/C", "cls"])
+            .status();
+    } else {
+        let _ = std::process::Command::new("clear").status();
+    }
+    print!("\x1B[2J\x1B[1;1H");
 }
 
 #[cfg(test)]
