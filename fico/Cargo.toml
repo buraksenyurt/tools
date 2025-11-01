@@ -9,4 +9,5 @@ anyhow = "1.0.100"
 clap = { version = "4.5.51", features = ["derive"] }
 colorized = "1.0.0"
 indicatif = "0.18.2"
+sha2 = "0.10.9"
 utility = { path = "../utility" }

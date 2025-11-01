@@ -6,7 +6,10 @@ use std::{
 
 use colorized::Color;
 use indicatif::ProgressBar;
+use sha2::{Digest, Sha256};
 use utility::clear_screen;
+
+const BUFFER_SIZE: usize = 8192;
 
 pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow::Result<()> {
     if !source.exists() {
@@ -50,7 +53,7 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow
         .progress_chars("=>-"),
     );
 
-    let mut buffer = [0u8; 8192];
+    let mut buffer = [0u8; BUFFER_SIZE];
     loop {
         let bytes_read = reader.read(&mut buffer)?;
         if bytes_read == 0 {
@@ -64,6 +67,48 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow
     writer.flush()?;
 
     Ok(())
+}
+
+pub fn verify_integrity(source: &PathBuf, destination: &PathBuf) -> anyhow::Result<bool> {
+    let source_checksum = calculate_checksum(source)?;
+    let destination_checksum = calculate_checksum(destination)?;
+
+    Ok(source_checksum == destination_checksum)
+}
+
+fn calculate_checksum(path: &PathBuf) -> anyhow::Result<u32> {
+    let mut file = File::open(path)?;
+    let mut buffer = [0u8; BUFFER_SIZE];
+    let mut hasher = Sha256::new();
+
+    println!(
+        "{}",
+        format!("Calculating checksum for `{}`", path.display())
+            .color(colorized::Colors::BrightYellowFg)
+    );
+    let file_size = file.metadata()?.len();
+    let progress_bar = ProgressBar::new(file_size);
+    progress_bar.set_style(
+        indicatif::ProgressStyle::with_template(
+            "[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})",
+        )
+        .unwrap()
+        .progress_chars("=>-"),
+    );
+
+    loop {
+        let bytes_read = file.read(&mut buffer)?;
+        if bytes_read == 0 {
+            break;
+        }
+        hasher.update(&buffer[..bytes_read]);
+        progress_bar.inc(bytes_read as u64);
+    }
+
+    let checksum = hasher.finalize();
+    Ok(checksum
+        .iter()
+        .fold(0u32, |acc, &byte| acc.wrapping_add(byte as u32)))
 }
 
 #[cfg(test)]

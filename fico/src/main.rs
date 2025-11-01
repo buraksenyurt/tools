@@ -17,5 +17,19 @@ fn main() -> anyhow::Result<()> {
         Err(e) => eprintln!("Error: {}", e),
     }
 
+    if args.verify {
+        match verify_integrity(&args.source, &args.destination) {
+            Ok(true) => println!(
+                "{}",
+                "File integrity verified successfully.".color(Colors::BrightGreenFg)
+            ),
+            Ok(false) => eprintln!(
+                "{}",
+                "File integrity verification failed.".color(Colors::BrightRedFg)
+            ),
+            Err(e) => eprintln!("Error during integrity verification: {}", e),
+        }
+    }
+
     Ok(())
 }

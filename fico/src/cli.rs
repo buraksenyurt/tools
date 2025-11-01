@@ -15,4 +15,6 @@ pub struct Args {
     pub destination: PathBuf,
     #[arg(short, long, help = "Force overwrite existing files")]
     pub force: bool,
+    #[arg(short, long, help = "Verify file integrity after copy")]
+    pub verify: bool,
 }
