@@ -2,9 +2,9 @@
 
 use std::collections::VecDeque;
 
-use colorized::{Color, Colors};
 use textplots::{Chart, Plot, Shape};
 use utility::clear_screen;
+use utility::{Colorize, Colors};
 
 use crate::counter::Counts;
 
@@ -38,7 +38,7 @@ pub fn draw_live_stats(stats: &VecDeque<Counts>) {
         "{}",
         "ERROR Trends Over Time"
             .to_string()
-            .color(Colors::BrightRedFg)
+            .colorize(Colors::LightRed)
     );
     Chart::new(120, 20, 0.0, stats.len() as f32)
         .lineplot(&Shape::Lines(&error_diff))
@@ -53,7 +53,7 @@ pub fn draw_live_stats(stats: &VecDeque<Counts>) {
         "{}",
         "WARNING Trends Over Time"
             .to_string()
-            .color(Colors::BrightYellowFg)
+            .colorize(Colors::LightYellow)
     );
     Chart::new(120, 20, 0.0, stats.len() as f32)
         .lineplot(&Shape::Lines(&warning_diff))

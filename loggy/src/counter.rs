@@ -1,4 +1,4 @@
-use colorized::{Color, Colors};
+use utility::{Colorize, Colors};
 
 /// Struct to hold counts of different log levels.
 #[derive(Debug)]
@@ -17,7 +17,7 @@ pub struct Counts {
 
 impl Counts {
     /// Creates a new `Counts` instance.
-    /// 
+    ///
     /// # Arguments
     /// * `total` - Total number of log entries.
     /// * `error` - Number of error log entries.
@@ -39,19 +39,19 @@ impl Counts {
     pub fn print(&self) {
         println!(
             "{}",
-            format!("{:<10} {:>10}", "Total:", self.total).color(Colors::BrightGreenFg)
+            format!("{:<10} {:>10}", "Total:", self.total).colorize(Colors::LightBlue)
         );
         println!(
             "{}",
-            format!("{:<10} {:>10}", "Error:", self.error).color(Colors::BrightRedFg)
+            format!("{:<10} {:>10}", "Error:", self.error).colorize(Colors::LightRed)
         );
         println!(
             "{}",
-            format!("{:<10} {:>10}", "Warning:", self.warning).color(Colors::BrightYellowFg)
+            format!("{:<10} {:>10}", "Warning:", self.warning).colorize(Colors::LightYellow)
         );
         println!(
             "{}",
-            format!("{:<10} {:>10}", "Info:", self.info).color(Colors::BrightBlueFg)
+            format!("{:<10} {:>10}", "Info:", self.info).colorize(Colors::LightBlue)
         );
     }
 }

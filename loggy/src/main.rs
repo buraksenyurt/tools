@@ -6,8 +6,7 @@ mod terminal;
 mod worker;
 
 use clap::Parser;
-use colorized::{Color, Colors};
-use utility::clear_screen;
+use utility::{Colorize, Colors, clear_screen};
 
 use crate::{cli::Cli, models::filter_info::FilterInfo, worker::*};
 
@@ -17,7 +16,7 @@ fn main() -> anyhow::Result<()> {
 
     println!(
         "{}",
-        format!("{:<10} {:>20}\n", "Log file:", args.file).color(Colors::BrightCyanFg)
+        format!("{:<10} {:>20}\n", "Log file:", args.file).colorize(Colors::LightCyan)
     );
 
     if args.counts {
@@ -30,7 +29,7 @@ fn main() -> anyhow::Result<()> {
     if args.watch {
         println!(
             "{}",
-            format!("Watching log file: {}", args.file).color(Colors::BrightCyanFg)
+            format!("Watching log file: {}", args.file).colorize(Colors::LightCyan)
         );
         watch_real_time(&args.file)?;
         return Ok(());
@@ -50,7 +49,7 @@ fn main() -> anyhow::Result<()> {
                     "Filtering logs by pattern '{}' in parallel (chunk size: {})",
                     pattern, args.chunk_size
                 )
-                .color(Colors::BrightCyanFg)
+                .colorize(Colors::LightCyan)
             );
             let logs = read_log_file(&args.file)?;
             filtered_logs = filter_logs_by_pattern_parallel(&logs, &pattern, args.chunk_size);
@@ -58,7 +57,7 @@ fn main() -> anyhow::Result<()> {
         } else {
             println!(
                 "{}",
-                format!("Filtering logs by pattern '{}'", pattern).color(Colors::BrightCyanFg)
+                format!("Filtering logs by pattern '{}'", pattern).colorize(Colors::LightCyan)
             );
             let logs = read_log_file(&args.file)?;
             filtered_logs = filter_logs_by_pattern(&logs, &pattern);
@@ -71,7 +70,7 @@ fn main() -> anyhow::Result<()> {
         end_time = Some(end.clone());
         println!(
             "{}",
-            format!("Filtering logs from {} to {}", start, end).color(Colors::BrightCyanFg)
+            format!("Filtering logs from {} to {}", start, end).colorize(Colors::LightCyan)
         );
         let logs = read_log_file(&args.file)?;
         filtered_logs = filter_logs_by_time_range(&logs, &start, &end);
@@ -81,7 +80,7 @@ fn main() -> anyhow::Result<()> {
     if let Some(export_path) = args.export {
         println!(
             "{}",
-            format!("Exporting filtered logs to {}", export_path).color(Colors::BrightCyanFg)
+            format!("Exporting filtered logs to {}", export_path).colorize(Colors::LightCyan)
         );
         let filter_info = FilterInfo {
             pattern: args_pattern,
@@ -91,7 +90,7 @@ fn main() -> anyhow::Result<()> {
         export_logs_to_json_file(&filtered_logs, filter_info, &export_path)?;
         println!(
             "{}",
-            format!("Logs exported successfully to {}", export_path).color(Colors::BrightGreenFg)
+            format!("Logs exported successfully to {}", export_path).colorize(Colors::LightGreen)
         );
     }
 

@@ -8,10 +8,10 @@ use std::{
 };
 
 use chrono::NaiveDateTime;
-use colorized::{Color, Colors};
 use notify::event::ModifyKind;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use regex::Regex;
+use utility::{Colorize, Colors};
 
 use crate::{counter::Counts, terminal::draw_live_stats};
 
@@ -220,10 +220,10 @@ pub fn watch_real_time(file_path: &str) -> anyhow::Result<()> {
                     }
                 }
             }
-            Ok(Err(e)) => println!("{}", format!("Error {:?}", e).color(Colors::BrightRedFg)),
+            Ok(Err(e)) => println!("{}", format!("Error {:?}", e).colorize(Colors::LightRed)),
             Err(e) => println!(
                 "{}",
-                format!("Channel Error {:?}", e).color(Colors::BrightRedFg)
+                format!("Channel Error {:?}", e).colorize(Colors::LightRed)
             ),
         }
     }
@@ -256,7 +256,7 @@ pub fn export_logs_to_json_file(
 
     println!(
         "{}",
-        format!("Exported logs to JSON file: {}", output_path).color(Colors::BrightGreenFg)
+        format!("Exported logs to JSON file: {}", output_path).colorize(Colors::LightGreen)
     );
 
     Ok(())
