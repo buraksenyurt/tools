@@ -4,10 +4,10 @@ use std::{
     path::PathBuf,
 };
 
-use colorized::Color;
 use indicatif::ProgressBar;
 use sha2::{Digest, Sha256};
 use utility::clear_screen;
+use utility::{Colorize, Colors};
 
 const BUFFER_SIZE: usize = 8192;
 
@@ -35,9 +35,9 @@ pub fn copy_file(source: &PathBuf, destination: &PathBuf, force: bool) -> anyhow
         source.display(),
         destination.display()
     );
-    println!("{}", info.color(colorized::Colors::BrightYellowFg));
+    println!("{}", info.colorize(Colors::LightYellow));
     let info = format!("File size: {} bytes", file_size);
-    println!("{}", info.color(colorized::Colors::BrightYellowFg));
+    println!("{}", info.colorize(Colors::LightYellow));
 
     let destination_file = File::create(destination)?;
 
@@ -83,8 +83,7 @@ fn calculate_checksum(path: &PathBuf) -> anyhow::Result<u32> {
 
     println!(
         "{}",
-        format!("Calculating checksum for `{}`", path.display())
-            .color(colorized::Colors::BrightYellowFg)
+        format!("Calculating checksum for `{}`", path.display()).colorize(Colors::LightYellow)
     );
     let file_size = file.metadata()?.len();
     let progress_bar = ProgressBar::new(file_size);

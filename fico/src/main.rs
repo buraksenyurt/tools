@@ -3,7 +3,7 @@ mod worker;
 
 use clap::Parser;
 use cli::*;
-use colorized::{Color, Colors};
+use utility::{Colorize, Colors};
 use worker::*;
 
 fn main() -> anyhow::Result<()> {
@@ -12,7 +12,7 @@ fn main() -> anyhow::Result<()> {
     match copy_file(&args.source, &args.destination, args.force) {
         Ok(_) => println!(
             "{}",
-            "File copied successfully.".color(Colors::BrightGreenFg)
+            "File copied successfully.".colorize(Colors::LightGreen)
         ),
         Err(e) => eprintln!("Error: {}", e),
     }
@@ -21,11 +21,11 @@ fn main() -> anyhow::Result<()> {
         match verify_integrity(&args.source, &args.destination) {
             Ok(true) => println!(
                 "{}",
-                "File integrity verified successfully.".color(Colors::BrightGreenFg)
+                "File integrity verified successfully.".colorize(Colors::LightGreen)
             ),
             Ok(false) => eprintln!(
                 "{}",
-                "File integrity verification failed.".color(Colors::BrightRedFg)
+                "File integrity verification failed.".colorize(Colors::LightRed)
             ),
             Err(e) => eprintln!("Error during integrity verification: {}", e),
         }

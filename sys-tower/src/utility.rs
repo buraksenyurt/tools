@@ -1,4 +1,4 @@
-use colorized::{Color, Colors};
+use utility_lib::{Colorize, Colors};
 
 pub fn clear_screen() {
     utility_lib::clear_screen();
@@ -8,11 +8,11 @@ pub fn show_loading_message() {
     println!();
     println!(
         "{}",
-        "Calculating system information...".color(Colors::BrightYellowFg)
+        "Calculating system information...".colorize(Colors::LightYellow)
     );
     println!(
         "{}",
-        "Please wait while we gather data...".color(Colors::BrightCyanFg)
+        "Please wait while we gather data...".colorize(Colors::LightCyan)
     );
     println!();
 }
@@ -20,32 +20,32 @@ pub fn show_loading_message() {
 pub fn show_help() {
     println!(
         "{}",
-        "SysTower - System Information Tool".color(Colors::BrightGreenFg)
+        "SysTower - System Information Tool".colorize(Colors::LightGreen)
     );
-    println!("{}", "-".repeat(34).color(Colors::BrightGreenFg));
+    println!("{}", "-".repeat(34).colorize(Colors::LightGreen));
     println!();
-    println!("{}", "What am I doing?".color(Colors::BrightYellowFg));
+    println!("{}", "What am I doing?".colorize(Colors::LightYellow));
     println!();
     println!("This program displays comprehensive system information including:");
     println!(
         "  {} System details (OS, kernel, hostname)",
-        "-".color(Colors::BrightGreenFg)
+        "-".colorize(Colors::LightGreen)
     );
-    println!("  {} CPU information", "-".color(Colors::BrightGreenFg));
+    println!("  {} CPU information", "-".colorize(Colors::LightGreen));
     println!(
         "  {} Memory usage (RAM and swap)",
-        "-".color(Colors::BrightGreenFg)
+        "-".colorize(Colors::LightGreen)
     );
     println!(
         "  {} Disk space information",
-        "-".color(Colors::BrightGreenFg)
+        "-".colorize(Colors::LightGreen)
     );
     println!(
         "  {} Top 5 processes by CPU usage",
-        "-".color(Colors::BrightGreenFg)
+        "-".colorize(Colors::LightGreen)
     );
     println!();
-    println!("{}", "Usage:".color(Colors::BrightCyanFg));
+    println!("{}", "Usage:".colorize(Colors::LightCyan));
     println!("  sys-tower           - Display system information");
     println!("  sys-tower --help    - Show this help message");
     println!();

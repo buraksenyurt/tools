@@ -1,40 +1,40 @@
 use crate::report::Report;
-use colorized::{Color, Colors};
+use utility::{Colorize, Colors};
 
 pub fn print_header() {
-    println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
-    println!("{}", "D-Dash".color(Colors::BrightWhiteFg));
+    println!("{}", "*".repeat(80).colorize(Colors::LightYellow));
+    println!("{}", "D-Dash".colorize(Colors::LightWhite));
     println!(
         "{}",
-        "A simple directory and file analysis tool written in Rust.".color(Colors::BrightWhiteFg)
+        "A simple directory and file analysis tool written in Rust.".colorize(Colors::LightWhite)
     );
-    println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
+    println!("{}", "*".repeat(80).colorize(Colors::LightYellow));
     println!();
 }
 
 pub fn print_dashboard(report: &Report) {
-    println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
-    println!("{}", "Summary".color(Colors::BrightWhiteFg));
+    println!("{}", "*".repeat(80).colorize(Colors::LightYellow));
+    println!("{}", "Summary".colorize(Colors::LightWhite));
     println!();
     println!(
         "{}",
-        format!("Scanned Path: {}", report.scanned_path).color(Colors::BrightCyanFg)
+        format!("Scanned Path: {}", report.scanned_path).colorize(Colors::LightCyan)
     );
     println!(
         "{}",
-        format!("Deep Level: {}", report.level).color(Colors::BrightCyanFg)
+        format!("Deep Level: {}", report.level).colorize(Colors::LightCyan)
     );
     println!(
         "{}",
-        format!("Total Files: {}", report.total_files).color(Colors::BrightCyanFg)
+        format!("Total Files: {}", report.total_files).colorize(Colors::LightCyan)
     );
     println!(
         "{}",
-        format!("Total Directories: {}", report.total_directories).color(Colors::BrightCyanFg)
+        format!("Total Directories: {}", report.total_directories).colorize(Colors::LightCyan)
     );
     println!(
         "{}",
-        format!("Total Size: {} bytes", report.total_size).color(Colors::BrightCyanFg)
+        format!("Total Size: {} bytes", report.total_size).colorize(Colors::LightCyan)
     );
     if let Some(ref file) = report.most_huge_file {
         println!(
@@ -43,10 +43,10 @@ pub fn print_dashboard(report: &Report) {
                 "Most Huge File: {} ({} bytes)",
                 file, report.most_huge_file_size
             )
-            .color(Colors::BrightCyanFg)
+            .colorize(Colors::LightCyan)
         );
     } else {
-        println!("{}", "Most Huge File: None".color(Colors::BrightCyanFg));
+        println!("{}", "Most Huge File: None".colorize(Colors::LightCyan));
     }
     if let Some(ref ext) = report.most_used_extension {
         println!(
@@ -55,15 +55,15 @@ pub fn print_dashboard(report: &Report) {
                 "Most Used Extension: {} ({} files)",
                 ext, report.most_used_extension_count
             )
-            .color(Colors::BrightCyanFg)
+            .colorize(Colors::LightCyan)
         );
     } else {
         println!(
             "{}",
-            "Most Used Extension: None".color(Colors::BrightCyanFg)
+            "Most Used Extension: None".colorize(Colors::LightCyan)
         );
     }
-    println!("{}", "*".repeat(80).color(Colors::BrightYellowFg));
+    println!("{}", "*".repeat(80).colorize(Colors::LightYellow));
     println!();
 }
 
@@ -74,9 +74,9 @@ pub fn print_entities(entities: &[crate::entity::Entity]) {
             "{:<25}\t{:<5}\t{:<20}\t{:>10}",
             "Name", "Type", "Extension", "Size"
         )
-        .color(Colors::BrightMagentaFg)
+        .colorize(Colors::LightMagenta)
     );
-    println!("{}", "-".repeat(80).color(Colors::BrightYellowFg));
+    println!("{}", "-".repeat(80).colorize(Colors::LightYellow));
     for entity in entities {
         println!("{}", entity);
     }

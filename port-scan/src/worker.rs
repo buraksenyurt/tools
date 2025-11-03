@@ -1,6 +1,6 @@
 use std::{thread, time::Duration};
 
-use colorized::{Color, Colors};
+use utility::{Colorize, Colors};
 
 use crate::scanner::Scanner;
 
@@ -14,7 +14,7 @@ use crate::scanner::Scanner;
 pub fn start_scan(ip: &str, ports: Vec<u16>, timeout: Duration) {
     println!(
         "{}",
-        format!("Scanning {} for ports: {:?}", ip, ports).color(Colors::BrightCyanFg)
+        format!("Scanning {} for ports: {:?}", ip, ports).colorize(Colors::LightCyan)
     );
     let scanner = Scanner::new(ip.parse().unwrap(), timeout);
     for port in ports {
@@ -31,7 +31,7 @@ pub fn start_scan(ip: &str, ports: Vec<u16>, timeout: Duration) {
 pub fn start_scan_range(ip: &str, start_port: u16, end_port: u16, timeout: Duration) {
     println!(
         "{}",
-        format!("Scanning {} from {} to {}", ip, start_port, end_port).color(Colors::BrightCyanFg)
+        format!("Scanning {} from {} to {}", ip, start_port, end_port).colorize(Colors::LightCyan)
     );
     let scanner = Scanner::new(ip.parse().unwrap(), timeout);
     for port in start_port..=end_port {
@@ -41,16 +41,16 @@ pub fn start_scan_range(ip: &str, start_port: u16, end_port: u16, timeout: Durat
 }
 
 /// Start scanning a range of ports on the given IP address in parallel using multiple threads.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `ip` - The target IP address as a string.
 /// * `start_port` - The starting port number of the range to scan.
 /// * `end_port` - The ending port number of the range to scan.
 pub fn start_scan_range_parallel(ip: &str, start_port: u16, end_port: u16, timeout: Duration) {
     println!(
         "{}",
-        format!("Scanning {} from {} to {}", ip, start_port, end_port).color(Colors::BrightCyanFg)
+        format!("Scanning {} from {} to {}", ip, start_port, end_port).colorize(Colors::LightCyan)
     );
     let ip_address = ip.parse().unwrap();
     let mut handles = vec![];
@@ -83,7 +83,7 @@ pub fn start_scan_range_parallel(ip: &str, start_port: u16, end_port: u16, timeo
 /// * `args` - A slice of command-line arguments.
 /// # Returns
 /// * `Result<(&str, &str), String>` - Ok with IP address and ports/range if valid, Err with error message if invalid.
-pub fn validate_arguments(args: &[String]) -> Result<(&str, &str,bool), String> {
+pub fn validate_arguments(args: &[String]) -> Result<(&str, &str, bool), String> {
     if args.len() < 3 {
         return Err("Invalid arguments".into());
     }

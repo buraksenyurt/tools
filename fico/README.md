@@ -25,7 +25,6 @@ cargo run -- -s .\games.dat -d .\games_copy.dat -f -v
 - **Komut satırı argümanları**: **[clap](https://crates.io/crates/clap)** crate'i kullanılarak komut satırı argümanlarının daha yapısal bir şekilde işlenmesi sağlanır.
 - **Progress Bar**: **[indicatif](https://crates.io/crates/indicatif)** crate'i kullanılarak terminalde kopyalama işlemi sırasında görsel bir progress bar oluşturulması sağlanır. Önemli özelliklerinden birisi template yapısıdır.
 - **Hata Yönetimi**: **[anyhow](https://crates.io/crates/anyhow)** crate'i kullanılarak hata yönetimi ve raporlama işlemleri basitleştirilmiştir.
-- **Renkli Terminal Çıktısı**: **[colorized](https://crates.io/crates/colorized)** crate'i kullanılarak terminal çıktılarının renklendirilmesi sağlanmıştır.
 - **Dosya Bütünlüğü Doğrulama**: Kopyalama işlemi sonrası dosya bütünlüğünü sağlamak için **SHA-256** hash fonksiyonu kullanılarak kaynak ve hedef dosyaların eş olup olmadıkları kontrol edilir. Bunun için **[sha2](https://crates.io/crates/sha2)** isimli crate kullanılmıştır.
 
 ## Örnek Ekran Çıktıları

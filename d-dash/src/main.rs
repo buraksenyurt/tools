@@ -4,7 +4,7 @@ mod report;
 mod terminal;
 mod worker;
 
-use colorized::{Color, Colors};
+use utility::{Colorize, Colors};
 use utility::clear_screen;
 
 use crate::report::Report;
@@ -14,7 +14,7 @@ fn main() -> io::Result<()> {
         "{}",
         format!("Investigating path: {}", path)
             .as_str()
-            .color(Colors::BrightGreenFg)
+            .colorize(Colors::LightGreen)
     );
 
     let metadata = fs::metadata(&path)?;
@@ -24,7 +24,7 @@ fn main() -> io::Result<()> {
             "{}",
             format!("The provided path is not a directory: {}", path)
                 .as_str()
-                .color(Colors::BrightRedFg)
+                .colorize(Colors::LightRed)
         );
         return Ok(());
     }
@@ -37,7 +37,7 @@ fn main() -> io::Result<()> {
                 "{}",
                 format!("Error processing directory: {}", e)
                     .as_str()
-                    .color(Colors::BrightRedFg)
+                    .colorize(Colors::LightRed)
             );
             return Ok(());
         }

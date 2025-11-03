@@ -1,6 +1,6 @@
-/// Models for port scanning results
-use colorized::{Color, Colors};
 use std::time::Duration;
+/// Models for port scanning results
+use utility::{Colorize, Colors};
 
 /// Status of a scanned port
 /// Open: The port is open and accepting connections.
@@ -50,9 +50,9 @@ impl std::fmt::Display for PortInfo {
                 .unwrap_or("N/A".into())
         );
         match self.status {
-            PortStatus::Open => write!(f, "{}", text.color(Colors::BrightGreenFg)),
-            PortStatus::Closed => write!(f, "{}", text.color(Colors::BrightRedFg)),
-            PortStatus::Filtered => write!(f, "{}", text.color(Colors::BrightYellowFg)),
+            PortStatus::Open => write!(f, "{}", text.colorize(Colors::LightGreen)),
+            PortStatus::Closed => write!(f, "{}", text.colorize(Colors::LightRed)),
+            PortStatus::Filtered => write!(f, "{}", text.colorize(Colors::LightYellow)),
         }
     }
 }
