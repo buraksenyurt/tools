@@ -1,5 +1,5 @@
 use crate::models::*;
-use utility_lib::{Colorize, Colors};
+use utility::{Colorize, Colors};
 
 use crate::models::SystemData;
 

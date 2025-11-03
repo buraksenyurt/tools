@@ -1,8 +1,4 @@
-use utility_lib::{Colorize, Colors};
-
-pub fn clear_screen() {
-    utility_lib::clear_screen();
-}
+use utility::{Colorize, Colors};
 
 pub fn show_loading_message() {
     println!();

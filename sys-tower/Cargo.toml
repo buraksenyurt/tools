@@ -8,5 +8,5 @@ license = "MIT"
 repository = "https://github.com/buraksenyurt/tools"
 
 [dependencies]
-sysinfo = "0.36.1"
-utility_lib = { path = "../utility", package = "utility" }
+sysinfo = "0.37.2"
+utility = { path = "../utility", package = "utility" }
